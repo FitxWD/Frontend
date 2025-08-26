@@ -1,103 +1,147 @@
-import Image from "next/image";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { CheckCircleIcon } from '@heroicons/react/24/solid'; // Example for an icon library
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="bg-gray-900 text-gray-200">
+      <Navbar />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+      <main className="container mx-auto px-6">
+        {/* === HERO SECTION === */}
+        <section className="py-20 md:py-28">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight">
+                Finally, a Fitness Plan That Listens to You.
+              </h1>
+              <p className="text-lg text-gray-400">
+                Stop feeling lost. Our friendly AI assistant chats with you to create a personalized workout and diet plan that's perfect for beginners and easy to follow.
+              </p>
+              <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors">
+                Create My Free Plan
+              </button>
+            </div>
+            <div>
+              <img src="/placeholder-hero.jpg" alt="Woman doing a plank exercise at home" className="rounded-lg shadow-2xl object-cover w-full h-full" />
+            </div>
+          </div>
+        </section>
+
+        {/* === JOURNEY STEPS SECTION === */}
+        <section className="py-20">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-12">
+            Your Wellness Journey in 3 Simple Steps
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Step 1 */}
+            <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transform hover:-translate-y-2 transition-transform duration-300">
+              <img src="/placeholder-step1.jpg" alt="Man chatting on a laptop" className="w-full h-64 object-cover"/>
+              <div className="p-6">
+                <h3 className="font-bold text-xl text-white mb-2">1. Just Chat to Start</h3>
+                <p className="text-gray-400">No complex forms. Simply tell our AI your goals, preferences, and lifestyle in your own words.</p>
+              </div>
+            </div>
+            {/* Step 2 */}
+            <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transform hover:-translate-y-2 transition-transform duration-300">
+              <img src="/placeholder-step2.jpg" alt="Futuristic fitness interface" className="w-full h-64 object-cover"/>
+              <div className="p-6">
+                <h3 className="font-bold text-xl text-white mb-2">2. Get Your Custom Plan</h3>
+                <p className="text-gray-400">Receive a clear, daily to-do list for your workouts and meals, designed from scratch.</p>
+              </div>
+            </div>
+            {/* Step 3 */}
+            <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transform hover:-translate-y-2 transition-transform duration-300">
+              <img src="/placeholder-step3.jpg" alt="Abstract AI graphic" className="w-full h-64 object-cover"/>
+              <div className="p-6">
+                <h3 className="font-bold text-xl text-white mb-2">3. Personalize on the Fly</h3>
+                <p className="text-gray-400">Use the chat to easily swap items. Your plan adapts and evolves with you.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* === PLAN FEATURES SECTION === */}
+        <section className="py-20">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+                <div className="space-y-8">
+                    <h2 className="text-3xl md:text-4xl font-bold text-white">A Plan That Truly Understands You</h2>
+                    <ul className="space-y-4 text-lg">
+                        <li className="flex items-center gap-3"><CheckCircleIcon className="h-6 w-6 text-green-500" /> Conversational & Intuitive</li>
+                        <li className="flex items-center gap-3"><CheckCircleIcon className="h-6 w-6 text-green-500" /> Adapts to Your Life</li>
+                        <li className="flex items-center gap-3"><CheckCircleIcon className="h-6 w-6 text-green-500" /> Based on Proven Principles</li>
+                    </ul>
+                    <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors">
+                        Start My Plan
+                    </button>
+                </div>
+                <div>
+                    <img src="/placeholder-project.jpg" alt="Man working out with text overlay" className="rounded-lg shadow-2xl" />
+                </div>
+            </div>
+        </section>
+
+
+        {/* === HEALTHY HABITS SECTION === */}
+        <section className="py-20">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-12">
+            Build Healthy Habits, Not Stress
+          </h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Healthy Eating Card */}
+            <div className="bg-gray-800 rounded-lg overflow-hidden">
+                <img src="/placeholder-eating.jpg" alt="Meal prepping healthy food" className="w-full h-72 object-cover"/>
+                <div className="p-6">
+                    <h3 className="font-semibold text-xl text-blue-400 mb-2">Enjoy Healthy Eating</h3>
+                    <p className="text-gray-400">Discover delicious, easy-to-make meals tailored to your taste. No more guesswork about what to eat to reach your goals.</p>
+                </div>
+            </div>
+            {/* Movement Card */}
+            <div className="bg-gray-800 rounded-lg overflow-hidden">
+                <img src="/placeholder-movement.jpg" alt="Woman drinking water at the gym" className="w-full h-72 object-cover"/>
+                <div className="p-6">
+                    <h3 className="font-semibold text-xl text-blue-400 mb-2">Find Joy in Movement</h3>
+                    <p className="text-gray-400">We'll help you find workouts you genuinely enjoy, so you can build strength and confidence without it feeling like a chore.</p>
+                </div>
+            </div>
+          </div>
+        </section>
+
+        {/* === TESTIMONIALS SECTION === */}
+        <section className="py-20">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-12">
+            Hear From People Just Like You
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Testimonial 1 */}
+            <div className="bg-gray-800 p-8 rounded-xl shadow-lg space-y-4">
+              <p className="text-gray-300">"I was always too intimidated to start. This app felt like a friendly guide. I'm finally consistent and feeling great!"</p>
+              <div className="flex items-center space-x-4 pt-2">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Akila" className="w-12 h-12 rounded-full"/>
+                <p className="font-semibold text-white">Akila</p>
+              </div>
+            </div>
+            {/* Testimonial 2 */}
+            <div className="bg-gray-800 p-8 rounded-xl shadow-lg space-y-4">
+              <p className="text-gray-300">"The best part is the flexibility... I could tell the assistant to give me workouts I could do in a hotel room. It's a game-changer."</p>
+              <div className="flex items-center space-x-4 pt-2">
+                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Sara" className="w-12 h-12 rounded-full"/>
+                <p className="font-semibold text-white">Sara</p>
+              </div>
+            </div>
+            {/* Testimonial 3 */}
+            <div className="bg-gray-800 p-8 rounded-xl shadow-lg space-y-4">
+              <p className="text-gray-300">"I've tried other apps, but the plans were so rigid. Being able to just ask to 'swap chicken for fish' is so simple and makes me stick to the diet."</p>
+              <div className="flex items-center space-x-4 pt-2">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Anna" className="w-12 h-12 rounded-full"/>
+                <p className="font-semibold text-white">Anna</p>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+      <Footer />
     </div>
   );
 }
