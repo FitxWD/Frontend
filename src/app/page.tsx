@@ -23,7 +23,7 @@ export default function Home() {
               </button>
             </div>
             <div>
-              <img src="/placeholder-hero.jpg" alt="Woman doing a plank exercise at home" className="rounded-lg shadow-2xl object-cover w-full h-full" />
+              <img src="/LandingPage/hero.webp" alt="Woman doing a plank exercise at home" className="rounded-lg shadow-2xl object-cover w-full h-full" />
             </div>
           </div>
         </section>
