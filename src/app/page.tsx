@@ -36,7 +36,7 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8">
             {/* Step 1 */}
             <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transform hover:-translate-y-2 transition-transform duration-300">
-              <img src="/placeholder-step1.jpg" alt="Man chatting on a laptop" className="w-full h-64 object-cover"/>
+              <img src="LandingPage/2.jpg" alt="Man chatting on a laptop" className="w-full h-64 object-cover"/>
               <div className="p-6">
                 <h3 className="font-bold text-xl text-white mb-2">1. Just Chat to Start</h3>
                 <p className="text-gray-400">No complex forms. Simply tell our AI your goals, preferences, and lifestyle in your own words.</p>
@@ -44,7 +44,7 @@ export default function Home() {
             </div>
             {/* Step 2 */}
             <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transform hover:-translate-y-2 transition-transform duration-300">
-              <img src="/placeholder-step2.jpg" alt="Futuristic fitness interface" className="w-full h-64 object-cover"/>
+              <img src="LandingPage/3.webp" alt="Futuristic fitness interface" className="w-full h-64 object-cover"/>
               <div className="p-6">
                 <h3 className="font-bold text-xl text-white mb-2">2. Get Your Custom Plan</h3>
                 <p className="text-gray-400">Receive a clear, daily to-do list for your workouts and meals, designed from scratch.</p>
@@ -52,7 +52,7 @@ export default function Home() {
             </div>
             {/* Step 3 */}
             <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transform hover:-translate-y-2 transition-transform duration-300">
-              <img src="/placeholder-step3.jpg" alt="Abstract AI graphic" className="w-full h-64 object-cover"/>
+              <img src="LandingPage/4.jpg" alt="Abstract AI graphic" className="w-full h-64 object-cover"/>
               <div className="p-6">
                 <h3 className="font-bold text-xl text-white mb-2">3. Personalize on the Fly</h3>
                 <p className="text-gray-400">Use the chat to easily swap items. Your plan adapts and evolves with you.</p>
@@ -76,7 +76,7 @@ export default function Home() {
                     </button>
                 </div>
                 <div>
-                    <img src="/placeholder-project.jpg" alt="Man working out with text overlay" className="rounded-lg shadow-2xl" />
+                    <img src="/LandingPage/5.webp/" alt="Man working out with text overlay" className="rounded-lg shadow-2xl" />
                 </div>
             </div>
         </section>
@@ -90,7 +90,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-8">
             {/* Healthy Eating Card */}
             <div className="bg-gray-800 rounded-lg overflow-hidden">
-                <img src="/placeholder-eating.jpg" alt="Meal prepping healthy food" className="w-full h-72 object-cover"/>
+                <img src="/LandingPage/6.webp" alt="Meal prepping healthy food" className="w-full h-72 object-cover"/>
                 <div className="p-6">
                     <h3 className="font-semibold text-xl text-blue-400 mb-2">Enjoy Healthy Eating</h3>
                     <p className="text-gray-400">Discover delicious, easy-to-make meals tailored to your taste. No more guesswork about what to eat to reach your goals.</p>
@@ -98,7 +98,7 @@ export default function Home() {
             </div>
             {/* Movement Card */}
             <div className="bg-gray-800 rounded-lg overflow-hidden">
-                <img src="/placeholder-movement.jpg" alt="Woman drinking water at the gym" className="w-full h-72 object-cover"/>
+                <img src="/LandingPage/7.jpg" alt="Woman drinking water at the gym" className="w-full h-72 object-cover"/>
                 <div className="p-6">
                     <h3 className="font-semibold text-xl text-blue-400 mb-2">Find Joy in Movement</h3>
                     <p className="text-gray-400">We'll help you find workouts you genuinely enjoy, so you can build strength and confidence without it feeling like a chore.</p>
