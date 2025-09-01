@@ -21,12 +21,16 @@ const Navbar = () => {
 
         {/* Buttons Section */}
         <div className="space-x-2 md:space-x-4">
-          <button className="text-white hover:bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 transition-colors">
-            Login
-          </button>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 transition-colors">
-            Register
-          </button>
+          <Link href="/login">
+            <button className="text-white hover:bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 transition-colors">
+              Login
+            </button>
+          </Link>
+          <Link href="/signup">
+            <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg text-sm px-5 py-2.5 transition-colors">
+              Register
+            </button>
+          </Link>
         </div>
       </nav>
     </header>
