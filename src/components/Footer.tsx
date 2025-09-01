@@ -3,15 +3,7 @@ import Image from 'next/image'; // <-- Import the Image component
 const Footer = () => {
   return (
     <footer className="bg-gray-900 border-t border-gray-800">
-      <div className="container mx-auto px-6 py-12">
-        {/* Call to Action Section */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Your Wellness Journey Awaits</h2>
-          <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors">
-            Create My Free Plan
-          </button>
-        </div>
-
+      
         {/* Footer Links Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 pt-8 border-t border-gray-800">
           {/* Logo Section */}
@@ -56,7 +48,6 @@ const Footer = () => {
             </div>
           </div>
         </div>
-      </div>
     </footer>
   );
 };

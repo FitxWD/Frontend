@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { CheckCircleIcon } from '@heroicons/react/24/solid'; // Example for an icon library
+import Link from 'next/link'; 
 
 export default function Home() {
   return (
@@ -18,9 +19,11 @@ export default function Home() {
               <p className="text-lg text-gray-400">
                 Stop feeling lost. Our friendly AI assistant chats with you to create a personalized workout and diet plan that's perfect for beginners and easy to follow.
               </p>
-              <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors">
-                Create My Free Plan
-              </button>
+              <Link href="/signup">
+                <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors">
+                  Create My Free Plan
+                </button>
+              </Link>
             </div>
             <div>
               <img src="/LandingPage/hero.webp" alt="Woman doing a plank exercise at home" className="rounded-lg shadow-2xl object-cover w-full h-full" />
@@ -71,9 +74,12 @@ export default function Home() {
                         <li className="flex items-center gap-3"><CheckCircleIcon className="h-6 w-6 text-green-500" /> Adapts to Your Life</li>
                         <li className="flex items-center gap-3"><CheckCircleIcon className="h-6 w-6 text-green-500" /> Based on Proven Principles</li>
                     </ul>
-                    <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors">
-                        Start My Plan
-                    </button>
+
+                    <Link href="/signup">
+                      <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors">
+                          Start My Plan
+                      </button>
+                    </Link>
                 </div>
                 <div>
                     <img src="/LandingPage/5.webp/" alt="Man working out with text overlay" className="rounded-lg shadow-2xl" />
@@ -140,7 +146,17 @@ export default function Home() {
           </div>
         </section>
       </main>
-
+      <div className="container mx-auto px-6 py-12">
+        {/* Call to Action Section */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Your Wellness Journey Awaits</h2>
+          <Link href="/signup">
+            <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors">
+              Create My Free Plan
+            </button>
+          </Link>
+        </div>
+      </div>
       <Footer />
     </div>
   );
