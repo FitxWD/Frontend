@@ -1,16 +1,16 @@
-import Image from 'next/image'; // <-- Import the Image component
+import Image from 'next/image';
 
 const Footer = () => {
   return (
     <footer className="bg-gray-900 border-t border-gray-800">
-      
-        {/* Footer Links Section */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 pt-8 border-t border-gray-800">
+      {/* Centering and Padding Container */}
+      <div className="container mx-auto px-6 py-12">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10">
           {/* Logo Section */}
           <div className="flex flex-col items-start">
              <div className="flex items-center space-x-3">
                 <Image
-                  src="/logo.jpeg" // <-- Path to your logo
+                  src="/logo.jpeg"
                   alt="Wellness AI Coach Logo"
                   width={50}
                   height={50}
@@ -48,6 +48,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
+      </div>
     </footer>
   );
 };
