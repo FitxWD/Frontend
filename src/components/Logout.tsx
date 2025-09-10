@@ -5,7 +5,6 @@ export default function Navbar() {
   const { user, signOut } = useAuth();
   return (
     <nav className="...">
-      {/* ... your links ... */}
       <div className="ml-auto flex items-center gap-3">
         {user ? (
           <>
