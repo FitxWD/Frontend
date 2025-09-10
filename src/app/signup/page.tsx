@@ -31,12 +31,13 @@ export default function SignupPage() {
           email: form.email,
           name: form.fullname,
           createdAt: serverTimestamp(),
+          role: "user",
           preferences: {},
-          customizedWorkoutPlans: [],
-          customizedDietPlans: [],
+          workoutPlans: [],
+          dietPlans: [],
         });
       }
-      router.replace("/dashboard");
+      router.replace("/health-data");
     } catch (err: any) {
       const code = err?.code || "";
       if (code === "auth/email-already-in-use") setError("Email already in use.");
@@ -74,7 +75,7 @@ export default function SignupPage() {
                     value={form.fullname}
                     onChange={(e) => setForm({ ...form, fullname: e.target.value })}
                     className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
-                    placeholder="e.g., Alex Doe"
+                    placeholder="e.g., Chehan Helitha"
                   />
                 </div>
 
