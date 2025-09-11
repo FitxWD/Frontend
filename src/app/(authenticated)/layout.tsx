@@ -4,6 +4,7 @@ import Sidebar from "@/components/Sidebar";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { Toaster } from 'react-hot-toast';
 
 export default function AuthenticatedLayout({
   children,
@@ -38,7 +39,7 @@ export default function AuthenticatedLayout({
   return (
     <div className="flex min-h-screen bg-gray-900 text-gray-200">
       <Sidebar />
-      <main className="flex-1 overflow-auto">{children}</main>
+      <main className="flex-1 overflow-auto">{children} <Toaster position="top-center" /></main>
     </div>
   );
 }
