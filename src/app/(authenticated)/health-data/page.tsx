@@ -24,7 +24,7 @@ export default function HealthDataPage() {
       if (!user) throw new Error("Not logged in. Please sign in again.");
       const token = await user.getIdToken();
 
-      const res = await fetch("http://127.0.0.1:8000/api/v1/profile", {
+      const res = await fetch("http://127.0.0.1:8000/api/v1/profile-health-update", {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -33,9 +33,9 @@ export default function HealthDataPage() {
         body: JSON.stringify({
           healthData: {
             gender: form.gender,
-            age: parseInt(form.age, 10),
-            weight: parseFloat(form.weight),
-            height: parseFloat(form.height),
+            age: form.age ? parseInt(form.age, 10) : undefined,
+            weight: form.weight ? parseFloat(form.weight) : undefined,
+            height: form.height ? parseFloat(form.height) : undefined,
           },
         }),
       });
