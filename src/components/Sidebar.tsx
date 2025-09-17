@@ -121,7 +121,7 @@ const Navigation = ({ navItems, collapsed }: { navItems: NavItems[]; collapsed: 
 };
 
 type UserProfileProps = {
-  user: { displayName?: string | null; email?: string } | null;
+  user: { displayName?: string | null; email?: string | null } | null;
   signOut: () => void;
   collapsed: boolean;
 };
