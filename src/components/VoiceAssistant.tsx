@@ -340,7 +340,7 @@ export default function VoiceAssistant() {
               </h2>
               <p className="text-gray-400 text-center text-sm mb-4">
                 Tell me about your fitness goals, preferences, and lifestyle.
-                I'll create a personalized workout and nutrition plan just for
+                I&apos;ll create a personalized workout and nutrition plan just for
                 you.
               </p>
               <div className="flex justify-center">
