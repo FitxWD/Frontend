@@ -9,9 +9,12 @@ import {
   MoonIcon,
   ChevronDownIcon,
   InformationCircleIcon,
+  BoltIcon, // New Icon
+  ArrowTrendingUpIcon, // New Icon
+  AdjustmentsVerticalIcon, // New Icon
 } from "@heroicons/react/24/solid";
 
-// --- 1. Refined Type Definitions to match the new models ---
+// --- 1. Refined Type Definitions to include all new fields ---
 interface Exercise {
   name: string;
   duration_min?: number;
@@ -32,14 +35,25 @@ interface DailyTemplate {
   sessions: Session[];
 }
 
-// We only need the types for the page, not the full plan
+interface MicroWorkout {
+  name: string;
+  duration_min: number;
+  example?: string;
+  drills?: string[];
+}
+
 interface WorkoutPlan {
   name: string;
   description: string;
   level: string;
+  durationMinutes?: number;
   weekly_template: DailyTemplate[];
+  micro_workouts: MicroWorkout[];
+  progression_4_weeks: string[];
+  personalization_rules: string[];
 }
 
+// --- (No changes to this section) ---
 const workoutPlanOptions = [
   { id: "gentle_start", name: "Gentle Start" },
   { id: "foundation_strength", name: "Foundation Strength" },
@@ -65,7 +79,6 @@ const WorkoutPlanSkeleton = () => (
     </div>
   );
 
-// --- 2. Component refined to prioritize the new 'example' field ---
 const ExerciseDetail = ({ exercise }: { exercise: Exercise }) => {
   const details = [
     exercise.sets && `Sets: ${exercise.sets}`,
@@ -74,21 +87,92 @@ const ExerciseDetail = ({ exercise }: { exercise: Exercise }) => {
   ]
     .filter(Boolean)
     .join(" | ");
-
   return (
     <div className="py-2 ml-4 border-l border-gray-700 pl-4">
       <p className="font-medium text-gray-200">{exercise.name}</p>
       {details && <p className="text-sm text-gray-400">{details}</p>}
-      {/* If an example exists, display it prominently for clarity */}
       {exercise.example && (
         <div className="mt-1 flex items-start gap-2 text-sky-300/90 text-sm">
-            <InformationCircleIcon className="h-5 w-5 flex-shrink-0 mt-0.5" />
-            <span>{exercise.example}</span>
+          <InformationCircleIcon className="h-5 w-5 flex-shrink-0 mt-0.5" />
+          <span>{exercise.example}</span>
         </div>
       )}
     </div>
   );
 };
+
+// --- 2. NEW Components to display the extra data ---
+
+const MicroWorkoutsSection = ({ microWorkouts }: { microWorkouts: MicroWorkout[] }) => (
+  <div className="mt-12">
+    <h3 className="text-3xl font-bold text-white flex items-center gap-3">
+        <BoltIcon className="h-8 w-8 text-yellow-400" />
+        Quick Workouts
+    </h3>
+    <p className="text-gray-400 mt-1">For days when you're short on time.</p>
+    <div className="grid md:grid-cols-2 gap-4 mt-6">
+        {microWorkouts.map((workout) => (
+            <div key={workout.name} className="bg-gray-800 p-4 rounded-lg">
+                <div className="flex justify-between items-center">
+                    <p className="font-bold text-white">{workout.name}</p>
+                    <span className="text-sm bg-gray-700 text-gray-300 px-2 py-1 rounded">
+                        {workout.duration_min} min
+                    </span>
+                </div>
+                {workout.example && <p className="text-sm text-gray-400 mt-2">{workout.example}</p>}
+                {workout.drills && (
+                    <ul className="list-disc list-inside text-sm text-gray-400 mt-2">
+                        {workout.drills.map((drill, i) => <li key={i}>{drill}</li>)}
+                    </ul>
+                )}
+            </div>
+        ))}
+    </div>
+  </div>
+);
+
+const ProgressionSection = ({ progression }: { progression: string[] }) => (
+    <div className="mt-12">
+        <h3 className="text-3xl font-bold text-white flex items-center gap-3">
+            <ArrowTrendingUpIcon className="h-8 w-8 text-green-400" />
+            4-Week Progression Guide
+        </h3>
+        <div className="mt-6 space-y-4">
+            {progression.map((week, index) => {
+                const parts = week.split(":");
+                const weekLabel = parts[0];
+                const description = parts.slice(1).join(":");
+                return (
+                    <div key={index} className="flex items-start gap-4">
+                        <div className="flex-shrink-0 bg-green-500/20 text-green-400 font-bold rounded-lg h-10 w-10 flex items-center justify-center">
+                            {weekLabel}
+                        </div>
+                        <p className="text-gray-300 pt-2">{description.trim()}</p>
+                    </div>
+                );
+            })}
+        </div>
+    </div>
+);
+
+const PersonalizationSection = ({ rules }: { rules: string[] }) => (
+    <div className="mt-12">
+        <h3 className="text-3xl font-bold text-white flex items-center gap-3">
+            <AdjustmentsVerticalIcon className="h-8 w-8 text-purple-400" />
+            Personalization Tips
+        </h3>
+        <div className="mt-6 space-y-3">
+            {rules.map((rule, index) => (
+                <div key={index} className="flex items-start gap-3 p-3 bg-gray-800 rounded-lg">
+                    <div className="flex-shrink-0 text-purple-400 mt-1">
+                        <ShieldCheckIcon className="h-5 w-5" />
+                    </div>
+                    <p className="text-gray-300">{rule}</p>
+                </div>
+            ))}
+        </div>
+    </div>
+);
 
 
 export default function WorkoutsPage() {
@@ -143,6 +227,8 @@ export default function WorkoutsPage() {
               <span className="capitalize text-sm font-semibold bg-green-500/20 text-green-400 px-3 py-1 rounded-full">{planData.level}</span>
               <h2 className="text-4xl lg:text-5xl font-bold text-white mt-3">{planData.name}</h2>
               <p className="text-gray-400 mt-2 max-w-3xl">{planData.description}</p>
+              
+              {/* --- WEEKLY SCHEDULE (No changes) --- */}
               <div className="mt-12 space-y-8">
                 {planData.weekly_template.map((day) => (
                   <motion.div key={day.day} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}
@@ -160,6 +246,8 @@ export default function WorkoutsPage() {
                       }
                       return (
                         <div key={sIndex} className="mt-4 space-y-4">
+                          {session.warmup && session.warmup.length > 0 && ( <div> ... </div> )}
+                          {/* ... (rest of session rendering code is unchanged) ... */}
                           {session.warmup && session.warmup.length > 0 && (
                             <div>
                               <h4 className="font-semibold text-white flex items-center gap-2 text-lg"><FireIcon className="h-5 w-5 text-orange-400"/>Warm-up</h4>
@@ -190,11 +278,20 @@ export default function WorkoutsPage() {
                   </motion.div>
                 ))}
               </div>
+
+              {/* --- 3. NEW SECTIONS RENDERED CONDITIONALLY --- */}
+              <div className="divide-y-2 divide-gray-700/50">
+                  {planData.micro_workouts && planData.micro_workouts.length > 0 && <MicroWorkoutsSection microWorkouts={planData.micro_workouts} />}
+                  {planData.progression_4_weeks && planData.progression_4_weeks.length > 0 && <ProgressionSection progression={planData.progression_4_weeks} />}
+                  {planData.personalization_rules && planData.personalization_rules.length > 0 && <PersonalizationSection rules={planData.personalization_rules} />}
+              </div>
+
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md p-4">
+
+      <div className="fixed top-0 right-0 w-full max-w-md p-4">
         <div className="relative bg-gray-900/80 backdrop-blur-sm p-4 rounded-xl shadow-2xl border border-gray-700">
           <label htmlFor="plan-select" className="block text-sm font-medium text-white mb-2 text-center">Change Workout Plan</label>
           <select id="plan-select" value={selectedPlan} onChange={(e) => setSelectedPlan(e.target.value)}
