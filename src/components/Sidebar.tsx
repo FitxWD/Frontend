@@ -8,7 +8,7 @@ import {
   UserCircleIcon,
   PlusCircleIcon,
   ArrowLeftCircleIcon,
-  ArrowRightCircleIcon,
+  PlayCircleIcon,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -193,6 +193,7 @@ export default function Sidebar() {
     { label: "Generate Plan", href: "/generate-plan", icon: PlusCircleIcon },
     { label: "Plan History", href: "/plan-history", icon: ClockIcon },
     { label: "Settings", href: "/settings", icon: Cog6ToothIcon },
+    { label: "Display Workout", href: "/display-workout", icon: PlayCircleIcon },
   ];
 
   const toggleSidebar = () => setCollapsed(!collapsed);
