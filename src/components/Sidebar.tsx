@@ -194,6 +194,7 @@ export default function Sidebar() {
     { label: "Plan History", href: "/plan-history", icon: ClockIcon },
     { label: "Settings", href: "/settings", icon: Cog6ToothIcon },
     { label: "Display Workout", href: "/display-workout", icon: PlayCircleIcon },
+    { label: "Display Diet Plans", href: "/display-dietPlan", icon: PlayCircleIcon },
   ];
 
   const toggleSidebar = () => setCollapsed(!collapsed);
