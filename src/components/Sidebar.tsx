@@ -9,6 +9,7 @@ import {
   PlusCircleIcon,
   ArrowLeftCircleIcon,
   PlayCircleIcon,
+  ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -29,7 +30,13 @@ const textVariants = {
 };
 
 // --- Sub-components for better structure ---
-const Logo = ({ collapsed, toggleSidebar }: { collapsed: boolean; toggleSidebar: () => void }) => (
+const Logo = ({
+  collapsed,
+  toggleSidebar,
+}: {
+  collapsed: boolean;
+  toggleSidebar: () => void;
+}) => (
   <div className="flex items-center justify-between h-10 mb-12">
     <div className="flex items-center gap-3">
       <Image
@@ -79,8 +86,13 @@ const Logo = ({ collapsed, toggleSidebar }: { collapsed: boolean; toggleSidebar:
   </div>
 );
 
-
-const Navigation = ({ navItems, collapsed }: { navItems: NavItems[]; collapsed: boolean }) => {
+const Navigation = ({
+  navItems,
+  collapsed,
+}: {
+  navItems: NavItems[];
+  collapsed: boolean;
+}) => {
   const pathname = usePathname();
 
   return (
@@ -107,7 +119,9 @@ const Navigation = ({ navItems, collapsed }: { navItems: NavItems[]; collapsed: 
                   exit="hidden"
                   variants={textVariants}
                   transition={{ duration: 0.2, delay: 0.1 }}
-                  className={`whitespace-nowrap ${isActive ? "font-semibold" : ""}`}
+                  className={`whitespace-nowrap ${
+                    isActive ? "font-semibold" : ""
+                  }`}
                 >
                   {item.label}
                 </motion.span>
@@ -170,8 +184,13 @@ const UserProfile = ({ user, signOut, collapsed }: UserProfileProps) => {
   );
 };
 
-// --- Main Sidebar Component ---
-export default function Sidebar() {
+// Add the onToggle prop to the interface
+interface SidebarProps {
+  onToggle?: (collapsed: boolean) => void;
+}
+
+// Update the component definition to accept props
+export default function Sidebar({ onToggle }: SidebarProps) {
   const { user, signOut } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
 
@@ -193,11 +212,30 @@ export default function Sidebar() {
     { label: "Generate Plan", href: "/generate-plan", icon: PlusCircleIcon },
     { label: "Plan History", href: "/plan-history", icon: ClockIcon },
     { label: "Settings", href: "/settings", icon: Cog6ToothIcon },
-    { label: "Display Workout", href: "/display-workout", icon: PlayCircleIcon },
-    { label: "Display Diet Plans", href: "/display-dietPlan", icon: PlayCircleIcon },
+    {
+      label: "Display Workout",
+      href: "/display-workout",
+      icon: PlayCircleIcon,
+    },
+    {
+      label: "Display Diet Plans",
+      href: "/display-dietPlan",
+      icon: PlayCircleIcon,
+    },
+    {
+      label: "Chat Assistant",
+      href: "/chat",
+      icon: ChatBubbleLeftRightIcon, // Import this from heroicons
+    },
   ];
 
-  const toggleSidebar = () => setCollapsed(!collapsed);
+  // Update the toggle function to call onToggle
+  const toggleSidebar = () => {
+    const newState = !collapsed;
+    setCollapsed(newState);
+    // Call the onToggle prop if provided
+    onToggle?.(newState);
+  };
 
   return (
     <motion.aside
@@ -208,7 +246,7 @@ export default function Sidebar() {
       className="bg-gray-800 text-white flex flex-col justify-between h-screen sticky top-0 p-4"
     >
       <div>
-        <Logo collapsed={collapsed} toggleSidebar={toggleSidebar}/>
+        <Logo collapsed={collapsed} toggleSidebar={toggleSidebar} />
         <Navigation navItems={navItems} collapsed={collapsed} />
       </div>
       <UserProfile user={user} signOut={signOut} collapsed={collapsed} />
