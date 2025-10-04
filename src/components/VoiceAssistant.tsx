@@ -12,6 +12,7 @@ import { BiLoaderAlt } from "react-icons/bi";
 import { TbWaveSine } from "react-icons/tb";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "@/contexts/AuthContext"; // Add this import
 
 // Add global type for SpeechRecognition
 declare global {
@@ -35,6 +36,7 @@ interface VoiceAssistantProps {
 }
 
 export default function VoiceAssistant({ planType }: VoiceAssistantProps) {
+  const { user } = useAuth(); // Add this line
   const [recording, setRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
     null
@@ -54,6 +56,19 @@ export default function VoiceAssistant({ planType }: VoiceAssistantProps) {
 
   // Set a constant for playback speed internally
   const PLAYBACK_SPEED = 1;
+
+  // Dynamic title based on plan type
+  const getTitle = () => {
+    if (planType === "diet") return "AI Nutrition Coach";
+    if (planType === "fitness") return "AI Fitness Coach";
+    return "AI Wellness Coach";
+  };
+
+  const getSubtitle = () => {
+    if (planType === "diet") return "Tell me about your nutrition goals";
+    if (planType === "fitness") return "Tell me about your fitness goals";
+    return "Tell me about your wellness goals";
+  };
 
   // Scroll to bottom when conversation history changes
   useEffect(() => {
@@ -201,19 +216,35 @@ export default function VoiceAssistant({ planType }: VoiceAssistantProps) {
 
         setLoading(true);
         const audioBlob = new Blob(chunks, { type: "audio/wav" });
-        const formData = new FormData();
-        formData.append("file", audioBlob, "audio.wav");
         
-        // Include plan type in the request
-        if (planType) {
-          formData.append("planType", planType);
-        }
-
         try {
+          // Check if user is authenticated
+          if (!user) {
+            throw new Error("User not authenticated");
+          }
+
+          // Get user ID and token
+          const token = await user.getIdToken();
+          const userId = user.uid;
+
+          const formData = new FormData();
+          formData.append("file", audioBlob, "audio.wav");
+          formData.append("planType", planType || "diet");
+          formData.append("user_id", userId); // Add user_id
+
           const res = await fetch("http://localhost:8000/api/v1/assistant", {
             method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`, // Add auth header
+            },
             body: formData,
           });
+
+          if (!res.ok) {
+            const errorData = await res.json().catch(() => ({ detail: "Network error" }));
+            throw new Error(errorData.detail || `HTTP ${res.status}: ${res.statusText}`);
+          }
+
           const data = await res.json();
 
           // Add the new conversation to the history
@@ -245,7 +276,7 @@ export default function VoiceAssistant({ planType }: VoiceAssistantProps) {
               id: Date.now(),
               userText: realtimeTranscript || "Audio input",
               assistantReply:
-                "Sorry, there was an error processing your request.",
+                `Sorry, there was an error: ${error instanceof Error ? error.message : "Please try again."}`,
               timestamp: new Date(),
             },
           ]);
@@ -327,10 +358,10 @@ export default function VoiceAssistant({ planType }: VoiceAssistantProps) {
           </div>
           <div>
             <h1 className="text-xl font-semibold text-white">
-              AI Fitness Coach
+              {getTitle()}
             </h1>
             <p className="text-xs text-gray-400">
-              Tell me about your fitness goals
+              {getSubtitle()}
             </p>
           </div>
         </div>
@@ -354,12 +385,15 @@ export default function VoiceAssistant({ planType }: VoiceAssistantProps) {
                 <FaRobot className="text-white text-2xl" />
               </div>
               <h2 className="text-xl font-medium text-center mb-3">
-                Welcome to AI Fitness Coach
+                Welcome to {getTitle()}
               </h2>
               <p className="text-gray-400 text-center text-sm mb-4">
-                Tell me about your fitness goals, preferences, and lifestyle.
-                I&apos;ll create a personalized workout and nutrition plan just for
-                you.
+                {planType === "diet" 
+                  ? "Tell me about your nutrition goals, dietary preferences, and health conditions. I'll create a personalized diet plan just for you."
+                  : planType === "fitness"
+                  ? "Tell me about your fitness goals, preferences, and lifestyle. I'll create a personalized workout plan just for you."
+                  : "Tell me about your wellness goals and preferences. I'll create a personalized plan just for you."
+                }
               </p>
               <div className="flex justify-center">
                 <motion.button
