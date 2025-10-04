@@ -179,73 +179,108 @@ const fitnessQuestions = [
 ];
 
 export default function PlanForm({ planType, onBack, onChangePlanType }: PlanFormProps) {
-  const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<Record<string, any>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const questions = planType === "diet" ? dietQuestions : fitnessQuestions;
-  const currentQuestion = questions[currentStep];
-  const isLastStep = currentStep === questions.length - 1;
 
-  const handleInputChange = (value: any) => {
+  const handleInputChange = (questionId: string, value: any) => {
     setFormData(prev => ({
       ...prev,
-      [currentQuestion.id]: value
+      [questionId]: value
     }));
   };
 
-  const handleNext = () => {
-    if (currentStep < questions.length - 1) {
-      setCurrentStep(prev => prev + 1);
-    }
+  const isFormComplete = () => {
+    return questions.every(question => {
+      const value = formData[question.id];
+      if (question.type === "checkbox") {
+        return value && value.length > 0;
+      }
+      return value && value.toString().trim() !== "";
+    });
   };
 
-  const handlePrevious = () => {
-    if (currentStep > 0) {
-      setCurrentStep(prev => prev - 1);
-    }
+  const getCompletedCount = () => {
+    return questions.filter(question => {
+      const value = formData[question.id];
+      if (question.type === "checkbox") {
+        return value && value.length > 0;
+      }
+      return value && value.toString().trim() !== "";
+    }).length;
   };
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
     
     try {
-      const response = await fetch("http://localhost:8000/api/v1/generate-plan", {
+      // Get user token from localStorage or context (if you use authentication)
+      const token = localStorage.getItem('authToken');
+      
+      const response = await fetch("http://localhost:8000/generate-plan", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          ...(token && { "Authorization": `Bearer ${token}` }),
         },
         body: JSON.stringify({
-          planType,
-          formData,
-          method: "form"
+          plan_type: planType, // Changed from planType to plan_type to match backend
+          user_answers: formData, // Changed from formData to user_answers to match backend
         }),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+      }
 
       const result = await response.json();
       console.log("Plan generated:", result);
       
-      // Handle success - redirect or show plan
-      // You can add navigation logic here
+      if (result.status === "success") {
+        // Store the generated plan
+        localStorage.setItem('generatedPlan', JSON.stringify(result.plan));
+        localStorage.setItem('planType', result.plan_type);
+        
+        // Navigate to plan display page
+        window.location.href = `/display-${planType}Plan`;
+        
+        alert(`${planType === 'diet' ? 'Diet' : 'Fitness'} plan generated successfully!`);
+      } else {
+        throw new Error('Failed to generate plan');
+      }
       
     } catch (error) {
       console.error("Error generating plan:", error);
+      alert(`Error generating ${planType} plan: ${error instanceof Error ? error.message : 'Unknown error occurred'}`);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const renderInput = () => {
-    switch (currentQuestion.type) {
+  const renderInput = (question: any) => {
+    const value = formData[question.id] || "";
+    const isAnswered = question.type === "checkbox" ? 
+      (value && value.length > 0) : 
+      (value && value.toString().trim() !== "");
+    
+    const inputClassName = `w-full p-3 border rounded-lg text-white focus:ring-2 focus:ring-green-500 focus:border-transparent ${
+      isAnswered 
+        ? 'bg-gray-700 border-green-500' 
+        : 'bg-gray-700 border-gray-600'
+    }`;
+    
+    switch (question.type) {
       case "select":
         return (
           <select
-            value={formData[currentQuestion.id] || ""}
-            onChange={(e) => handleInputChange(e.target.value)}
-            className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            value={value}
+            onChange={(e) => handleInputChange(question.id, e.target.value)}
+            className={inputClassName}
           >
             <option value="">Select an option...</option>
-            {currentQuestion.options?.map((option) => (
+            {question.options?.map((option: string) => (
               <option key={option} value={option}>
                 {option}
               </option>
@@ -255,22 +290,24 @@ export default function PlanForm({ planType, onBack, onChangePlanType }: PlanFor
 
       case "checkbox":
         return (
-          <div className="space-y-3">
-            {currentQuestion.options?.map((option) => (
+          <div className={`space-y-2 p-3 border rounded-lg ${
+            isAnswered ? 'border-green-500 bg-gray-750' : 'border-gray-600 bg-gray-700'
+          }`}>
+            {question.options?.map((option: string) => (
               <label key={option} className="flex items-center space-x-3 cursor-pointer">
                 <input
                   type="checkbox"
-                  checked={formData[currentQuestion.id]?.includes(option) || false}
+                  checked={value?.includes(option) || false}
                   onChange={(e) => {
-                    const currentValues = formData[currentQuestion.id] || [];
+                    const currentValues = value || [];
                     const newValues = e.target.checked
                       ? [...currentValues, option]
                       : currentValues.filter((v: string) => v !== option);
-                    handleInputChange(newValues);
+                    handleInputChange(question.id, newValues);
                   }}
-                  className="w-5 h-5 text-green-500 bg-gray-700 border-gray-600 rounded focus:ring-green-500"
+                  className="w-4 h-4 text-green-500 bg-gray-700 border-gray-600 rounded focus:ring-green-500"
                 />
-                <span className="text-gray-300">{option}</span>
+                <span className="text-gray-300 text-sm">{option}</span>
               </label>
             ))}
           </div>
@@ -279,11 +316,11 @@ export default function PlanForm({ planType, onBack, onChangePlanType }: PlanFor
       case "textarea":
         return (
           <textarea
-            value={formData[currentQuestion.id] || ""}
-            onChange={(e) => handleInputChange(e.target.value)}
-            placeholder={currentQuestion.placeholder}
-            rows={4}
-            className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"
+            value={value}
+            onChange={(e) => handleInputChange(question.id, e.target.value)}
+            placeholder={question.placeholder}
+            rows={3}
+            className={`${inputClassName} resize-none`}
           />
         );
 
@@ -291,10 +328,10 @@ export default function PlanForm({ planType, onBack, onChangePlanType }: PlanFor
         return (
           <input
             type="number"
-            value={formData[currentQuestion.id] || ""}
-            onChange={(e) => handleInputChange(e.target.value)}
-            placeholder={currentQuestion.placeholder}
-            className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            value={value}
+            onChange={(e) => handleInputChange(question.id, e.target.value)}
+            placeholder={question.placeholder}
+            className={inputClassName}
           />
         );
 
@@ -302,10 +339,10 @@ export default function PlanForm({ planType, onBack, onChangePlanType }: PlanFor
         return (
           <input
             type="text"
-            value={formData[currentQuestion.id] || ""}
-            onChange={(e) => handleInputChange(e.target.value)}
-            placeholder={currentQuestion.placeholder}
-            className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            value={value}
+            onChange={(e) => handleInputChange(question.id, e.target.value)}
+            placeholder={question.placeholder}
+            className={inputClassName}
           />
         );
     }
@@ -328,7 +365,7 @@ export default function PlanForm({ planType, onBack, onChangePlanType }: PlanFor
                 {planType === "diet" ? "Diet Plan" : "Fitness Plan"} Questionnaire
               </h1>
               <p className="text-sm text-gray-400">
-                Step {currentStep + 1} of {questions.length}
+                Fill out all questions to generate your personalized plan ({getCompletedCount()}/{questions.length} completed)
               </p>
             </div>
           </div>
@@ -341,70 +378,46 @@ export default function PlanForm({ planType, onBack, onChangePlanType }: PlanFor
         </div>
       </div>
 
-      {/* Progress Bar */}
-      <div className="bg-gray-800 px-4 pb-4">
-        <div className="w-full bg-gray-700 rounded-full h-2">
-          <div
-            className="bg-green-500 h-2 rounded-full transition-all duration-300"
-            style={{ width: `${((currentStep + 1) / questions.length) * 100}%` }}
-          />
-        </div>
-      </div>
-
       {/* Form Content */}
-      <div className="max-w-2xl mx-auto p-6">
-        <motion.div
-          key={currentStep}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -20 }}
-          className="bg-gray-800 rounded-xl p-8 shadow-lg"
-        >
-          <h2 className="text-2xl font-bold mb-6 text-white">
-            {currentQuestion.label}
+      <div className="max-w-4xl mx-auto p-6">
+        <div className="bg-gray-800 rounded-xl p-8 shadow-lg">
+          <h2 className="text-2xl font-bold mb-8 text-white text-center">
+            Complete Your {planType === "diet" ? "Diet" : "Fitness"} Assessment
           </h2>
 
-          {renderInput()}
-
-          {/* Navigation Buttons */}
-          <div className="flex justify-between mt-8">
-            <button
-              onClick={handlePrevious}
-              disabled={currentStep === 0}
-              className="px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Previous
-            </button>
-
-            {isLastStep ? (
-              <button
-                onClick={handleSubmit}
-                disabled={isSubmitting || !formData[currentQuestion.id]}
-                className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
-              >
-                {isSubmitting ? (
-                  <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                    <span>Generating Plan...</span>
-                  </>
-                ) : (
-                  <>
-                    <FaCheck className="w-4 h-4" />
-                    <span>Generate Plan</span>
-                  </>
-                )}
-              </button>
-            ) : (
-              <button
-                onClick={handleNext}
-                disabled={!formData[currentQuestion.id]}
-                className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Next
-              </button>
-            )}
+          {/* All Questions in Single Column */}
+          <div className="space-y-6 mb-8">
+            {questions.map((question, index) => (
+              <div key={question.id} className="space-y-3">
+                <label className="block text-lg font-medium text-gray-300">
+                  {index + 1}. {question.label}
+                </label>
+                {renderInput(question)}
+              </div>
+            ))}
           </div>
-        </motion.div>
+
+          {/* Submit Button */}
+          <div className="flex justify-center">
+            <button
+              onClick={handleSubmit}
+              disabled={isSubmitting || !isFormComplete()}
+              className="px-8 py-4 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-3 text-lg font-semibold"
+            >
+              {isSubmitting ? (
+                <>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  <span>Generating Your Plan...</span>
+                </>
+              ) : (
+                <>
+                  <FaCheck className="w-5 h-5" />
+                  <span>Generate {planType === "diet" ? "Diet" : "Fitness"} Plan</span>
+                </>
+              )}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
