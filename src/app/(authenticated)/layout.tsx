@@ -1,10 +1,11 @@
 "use client";
 
 import Sidebar from "@/components/Sidebar";
+import FloatingChat from "@/components/FloatingChat";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { Toaster } from 'react-hot-toast';
+import { useEffect, useState } from "react";
+import { Toaster } from "react-hot-toast";
 
 export default function AuthenticatedLayout({
   children,
@@ -13,6 +14,7 @@ export default function AuthenticatedLayout({
 }) {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -38,8 +40,12 @@ export default function AuthenticatedLayout({
 
   return (
     <div className="flex min-h-screen bg-gray-900 text-gray-200">
-      <Sidebar />
-      <main className="flex-1 overflow-auto">{children} <Toaster position="top-center" /></main>
+      <Sidebar onToggle={(collapsed) => setIsSidebarCollapsed(collapsed)} />
+      <main className="flex-1 overflow-auto relative">
+        {children}
+        <FloatingChat />
+        <Toaster position="top-center" />
+      </main>
     </div>
   );
 }

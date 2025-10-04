@@ -109,7 +109,7 @@ const MicroWorkoutsSection = ({ microWorkouts }: { microWorkouts: MicroWorkout[]
         <BoltIcon className="h-8 w-8 text-yellow-400" />
         Quick Workouts
     </h3>
-    <p className="text-gray-400 mt-1">For days when you're short on time.</p>
+    <p className="text-gray-400 mt-1">For days when you&apos;re short on time.</p>
     <div className="grid md:grid-cols-2 gap-4 mt-6">
         {microWorkouts.map((workout) => (
             <div key={workout.name} className="bg-gray-800 p-4 rounded-lg">
