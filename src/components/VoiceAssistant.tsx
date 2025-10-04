@@ -13,6 +13,14 @@ import { TbWaveSine } from "react-icons/tb";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
+// Add global type for SpeechRecognition
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
+}
+
 // Define a type for conversation entries
 type ConversationEntry = {
   id: number;
@@ -21,7 +29,12 @@ type ConversationEntry = {
   timestamp: Date;
 };
 
-export default function VoiceAssistant() {
+// Define props interface
+interface VoiceAssistantProps {
+  planType?: string | null;
+}
+
+export default function VoiceAssistant({ planType }: VoiceAssistantProps) {
   const [recording, setRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
     null
@@ -190,6 +203,11 @@ export default function VoiceAssistant() {
         const audioBlob = new Blob(chunks, { type: "audio/wav" });
         const formData = new FormData();
         formData.append("file", audioBlob, "audio.wav");
+        
+        // Include plan type in the request
+        if (planType) {
+          formData.append("planType", planType);
+        }
 
         try {
           const res = await fetch("http://localhost:8000/api/v1/assistant", {
