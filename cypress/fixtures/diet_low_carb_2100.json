@@ -1,0 +1,28 @@
+{
+  "diet_type": "Low Carb",
+  "calorie_range": "2050-2150",
+  "macro_targets": { "carbs_g": 50, "protein_g": 200, "fat_g": 130 },
+  "notes": "Focuses on high protein and healthy fats to promote satiety and fat loss.",
+  "days": [
+    {
+      "day": 1,
+      "meals": [
+        {
+          "name": "Avocado Egg Bake",
+          "description": "A high-fat, high-protein breakfast to kickstart ketosis.",
+          "ingredients": ["Avocado", "Eggs", "Bacon Bits", "Cheese"],
+          "approx_kcal": 600,
+          "alternatives": []
+        },
+        {
+          "name": "Steak with Asparagus",
+          "description": "A classic low-carb meal packed with nutrients.",
+          "ingredients": ["Sirloin Steak", "Asparagus", "Butter", "Garlic"],
+          "approx_kcal": 800,
+          "alternatives": []
+        }
+      ]
+    },
+    { "day": 2, "meals": [] }
+  ]
+}

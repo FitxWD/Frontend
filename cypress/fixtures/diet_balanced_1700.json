@@ -1,0 +1,36 @@
+{
+  "diet_type": "Balanced",
+  "calorie_range": "1650-1750",
+  "macro_targets": { "carbs_g": 170, "protein_g": 130, "fat_g": 50 },
+  "notes": "A well-rounded plan for sustainable energy and muscle maintenance.",
+  "days": [
+    {
+      "day": 1,
+      "meals": [
+        {
+          "name": "Oatmeal with Berries",
+          "description": "A hearty and fiber-rich start to your day.",
+          "ingredients": ["Rolled Oats", "Mixed Berries", "Almond Milk", "Chia Seeds"],
+          "approx_kcal": 400,
+          "alternatives": []
+        },
+        {
+          "name": "Grilled Chicken Salad",
+          "description": "Lean protein and fresh vegetables for a light lunch.",
+          "ingredients": ["Chicken Breast", "Romaine Lettuce", "Cucumber", "Cherry Tomatoes", "Olive Oil"],
+          "approx_kcal": 500,
+          "alternatives": []
+        },
+        {
+          "name": "Salmon with Quinoa",
+          "description": "Omega-3 rich salmon with a complete protein source.",
+          "ingredients": ["Salmon Fillet", "Quinoa", "Broccoli", "Lemon"],
+          "approx_kcal": 600,
+          "alternatives": []
+        }
+      ]
+    },
+    { "day": 2, "meals": [] },
+    { "day": 3, "meals": [] }
+  ]
+}

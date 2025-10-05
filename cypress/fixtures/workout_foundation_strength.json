@@ -1,0 +1,21 @@
+{
+  "name": "Foundation Strength",
+  "description": "Build a solid base of strength with compound movements.",
+  "level": "Intermediate",
+  "weekly_template": [
+    {
+      "day": "Monday",
+      "sessions": [{ "main": [{ "name": "Barbell Squats", "sets": 3, "reps": "8-10" }] }]
+    }
+  ],
+  "micro_workouts": [
+    { "name": "10-Min Kettlebell Flow", "duration_min": 10 }
+  ],
+  "progression_4_weeks": [
+    "W1: Focus on lifting with proper form.",
+    "W2: Increase the weight slightly if reps are easy."
+  ],
+  "personalization_rules": [
+    "Always warm up before lifting heavy."
+  ]
+}
