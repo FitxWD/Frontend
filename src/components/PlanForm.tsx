@@ -20,7 +20,6 @@ interface PlanFormProps {
   initialHealthData?: HealthData | null;
 }
 
-// Define different question sets for diet vs fitness
 const dietQuestions = [
   {
     id: "age",
@@ -32,7 +31,7 @@ const dietQuestions = [
     id: "gender",
     label: "What is your gender?",
     type: "select",
-    options: ["Male", "Female"],
+    options: ["Male", "Female", "Other"],
   },
   {
     id: "height",
@@ -112,83 +111,109 @@ const dietQuestions = [
 
 const fitnessQuestions = [
   {
-    id: "goal",
-    label: "What is your primary fitness goal?",
-    type: "select",
-    options: [
-      "Weight Loss",
-      "Muscle Building",
-      "Strength Training",
-      "Endurance/Cardio",
-      "General Fitness",
-      "Athletic Performance",
-      "Rehabilitation",
-    ],
+    id: "age",
+    label: "First, may I know your age?",
+    type: "number",
+    placeholder: "e.g., 25",
   },
   {
-    id: "currentFitnessLevel",
-    label: "What is your current fitness level?",
+    id: "gender",
+    label: "What is your gender?",
     type: "select",
-    options: [
-      "Beginner (little to no exercise experience)",
-      "Intermediate (regular exercise for 6+ months)",
-      "Advanced (consistent training for 2+ years)",
-      "Expert (competitive athlete/trainer level)",
-    ],
+    options: ["Male", "Female", "Other"],
   },
   {
-    id: "workoutFrequency",
-    label: "How many days per week can you workout?",
+    id: "height",
+    label: "Could you tell me your height in centimeters?",
+    type: "number",
+    placeholder: "e.g., 170",
+  },
+  {
+    id: "weight",
+    label: "And your weight in kilograms?",
+    type: "number",
+    placeholder: "e.g., 70",
+  },
+  {
+    id: "sleepHours",
+    label: "How many hours of sleep do you usually get per day?",
+    type: "number",
+    placeholder: "e.g., 8",
+  },
+  {
+    id: "waterIntake",
+    label: "How many litres of water do you usually drink in a day?",
+    type: "number",
+    placeholder: "e.g., 2.5",
+  },
+  {
+    id: "dailySteps",
+    label: "How many steps do you usually take in a day?",
+    type: "number",
+    placeholder: "e.g., 5000",
+  },
+  {
+    id: "restingHeartRate",
+    label: "What's your resting heart rate (in beats per minute)?",
+    type: "text",
+    placeholder: "e.g., 72 or 'Don't know'",
+  },
+  {
+    id: "systolicBloodPressure",
+    label: "What's your systolic blood pressure? (the higher number, e.g., 120)",
+    type: "text",
+    placeholder: "e.g., 120 or 'Don't know'",
+  },
+  {
+    id: "diastolicBloodPressure",
+    label: "What's your diastolic blood pressure? (the lower number, e.g., 80)",
+    type: "text",
+    placeholder: "e.g., 80 or 'Don't know'",
+  },
+  {
+    id: "fitnessLevel",
+    label: "How would you describe your overall fitness level?",
     type: "select",
-    options: ["1-2 days", "3-4 days", "5-6 days", "7 days"],
+    options: ["Beginner", "Intermediate", "Advanced"],
   },
   {
     id: "workoutDuration",
-    label: "How long can you workout per session?",
+    label: "Have you done any workouts? If so, on average, how long do your workout sessions last? (in minutes)",
+    type: "number",
+    placeholder: "e.g., 30",
+  },
+  {
+    id: "workoutIntensity",
+    label: "How would you describe your workout intensity?",
     type: "select",
-    options: [
-      "15-30 minutes",
-      "30-45 minutes",
-      "45-60 minutes",
-      "60-90 minutes",
-      "More than 90 minutes",
-    ],
+    options: ["Low", "Moderate", "High"],
   },
   {
-    id: "equipment",
-    label: "What equipment do you have access to?",
-    type: "checkbox",
-    options: [
-      "Gym membership",
-      "Home gym",
-      "Dumbbells",
-      "Resistance bands",
-      "Bodyweight only",
-      "Cardio machines",
-      "Barbell and plates",
-    ],
+    id: "enduranceLevel",
+    label: "How would you rate your endurance level?",
+    type: "select",
+    options: ["Low", "Average", "High"],
   },
   {
-    id: "injuries",
-    label: "Do you have any injuries or physical limitations?",
-    type: "textarea",
-    placeholder: "Please describe any injuries, pain, or limitations...",
+    id: "stressLevel",
+    label: "On a scale of 1–10, how would you rate your current stress level?",
+    type: "select",
+    options: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
   },
   {
-    id: "experience",
-    label: "Do you have experience with specific exercises?",
-    type: "checkbox",
-    options: [
-      "Weightlifting",
-      "Cardio training",
-      "Yoga/Pilates",
-      "Sports training",
-      "Functional training",
-      "Calisthenics",
-      "None of the above",
-    ],
+    id: "smokingStatus",
+    label: "What's your smoking status?",
+    type: "select",
+    options: ["Non-smoker", "Former smoker", "Current smoker"],
+  },
+  {
+    id: "healthConditions",
+    label: "Do you have any of the following health conditions?",
+    type: "select",
+    options: ["Asthma", "Diabetes", "Hypertension", "None"],
   },
 ];
+
 
 export default function PlanForm({
   planType,
