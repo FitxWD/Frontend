@@ -211,15 +211,14 @@ export default function Sidebar({ onToggle }: SidebarProps) {
     { label: "Dashboard", href: "/dashboard", icon: ChartBarIcon },
     { label: "Generate Plan", href: "/generate-plan", icon: PlusCircleIcon },
     { label: "Plan History", href: "/plan-history", icon: ClockIcon },
-    { label: "Settings", href: "/settings", icon: Cog6ToothIcon },
-    {
-      label: "Display Workout",
-      href: "/display-workout",
-      icon: PlayCircleIcon,
-    },
     {
       label: "Display Diet Plans",
       href: "/display-dietPlan",
+      icon: PlayCircleIcon,
+    },
+    {
+      label: "Display Workout Plans",
+      href: "/display-workout",
       icon: PlayCircleIcon,
     },
     {
@@ -227,6 +226,7 @@ export default function Sidebar({ onToggle }: SidebarProps) {
       href: "/chat",
       icon: ChatBubbleLeftRightIcon, // Import this from heroicons
     },
+    { label: "Settings", href: "/settings", icon: Cog6ToothIcon },
   ];
 
   // Update the toggle function to call onToggle

@@ -335,7 +335,11 @@ export default function PlanForm({
 
         // Navigate to plan display page with assigned plan ID
         const planId = result.plan.assigned_plan_id;
-        router.push(`/display-${planType}Plan?plan=${planId}`);
+        if (planType === "diet") {
+        router.push(`/display-dietPlan?plan=${planId}`);
+      } else {
+        router.push(`/display-workout?id=${planId}`); // Fixed: Changed from display-fitnessplan
+      }
       } else {
         throw new Error("Failed to generate plan");
       }

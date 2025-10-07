@@ -13,6 +13,9 @@ import {
   ArrowTrendingUpIcon, // New Icon
   AdjustmentsVerticalIcon, // New Icon
 } from "@heroicons/react/24/solid";
+import { toast, Toaster } from "react-hot-toast";
+import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/solid";
+import { useSearchParams } from "next/navigation";
 
 // --- 1. Refined Type Definitions to include all new fields ---
 interface Exercise {
@@ -180,6 +183,9 @@ export default function WorkoutsPage() {
   const [planData, setPlanData] = useState<WorkoutPlan | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [showAcceptance, setShowAcceptance] = useState(true);
+  const searchParams = useSearchParams();
+  const assignedPlanId = searchParams.get("plan");
 
   useEffect(() => {
     if (!selectedPlan) return;
@@ -211,8 +217,90 @@ export default function WorkoutsPage() {
     exit: { opacity: 0, y: -20 },
   };
 
+  // Add function to handle plan acceptance
+  const handlePlanAcceptance = async (accept: boolean) => {
+    try {
+      const token = localStorage.getItem("userToken");
+      const userId = localStorage.getItem("userId");
+
+      if (!token || !userId) {
+        throw new Error("Authentication required");
+      }
+
+      const response = await fetch("http://localhost:8000/api/v1/accept-plan", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          plan_id: selectedPlan,
+          plan_type: "workout",
+          user_id: userId,
+          accepted: accept,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update plan acceptance");
+      }
+
+      // Show success message
+      toast.success(accept ? "Plan accepted successfully!" : "Plan declined");
+      setShowAcceptance(false);
+
+      // If declined, clear the plan parameter from URL
+      if (!accept) {
+        window.history.replaceState({}, "", "/display-workout");
+      }
+    } catch (error) {
+      console.error("Error updating plan acceptance:", error);
+      toast.error("Failed to update plan acceptance");
+    }
+  };
+
   return (
     <div className="p-8 md:p-12 min-h-screen pb-40">
+      <Toaster position="top-center" />
+
+      {/* Plan Acceptance Notification */}
+      <AnimatePresence>
+        {assignedPlanId && showAcceptance && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md"
+          >
+            <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-lg p-4 mx-4">
+              <div className="flex items-center justify-between">
+                <div className="flex-1">
+                  <h3 className="text-white font-semibold">Recommended Plan</h3>
+                  <p className="text-sm text-gray-300">
+                    Based on your answers, we recommend this plan. Would you
+                    like to accept it?
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 ml-4">
+                  <button
+                    onClick={() => handlePlanAcceptance(true)}
+                    className="p-2 bg-green-500 hover:bg-green-600 rounded-full"
+                  >
+                    <CheckCircleIcon className="h-6 w-6 text-white" />
+                  </button>
+                  <button
+                    onClick={() => handlePlanAcceptance(false)}
+                    className="p-2 bg-red-500 hover:bg-red-600 rounded-full"
+                  >
+                    <XCircleIcon className="h-6 w-6 text-white" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <AnimatePresence mode="wait">
         {isLoading && <motion.div key="loader" {...FADE_IN_OUT_VARIANTS}><WorkoutPlanSkeleton /></motion.div>}
         {error && (
