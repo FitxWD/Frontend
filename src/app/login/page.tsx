@@ -21,14 +21,58 @@ export default function LoginPage() {
     e.preventDefault();
     setError(null);
     setLoading(true);
+
     try {
-      await signInWithEmailAndPassword(auth, form.email, form.password);
-      router.replace("/dashboard");
+      // First, regular Firebase login
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        form.email,
+        form.password
+      );
+      const token = await userCredential.user.getIdToken();
+
+      // Then, check/set custom claims
+      const response = await fetch(
+        "http://localhost:8000/api/v1/set-custom-claim",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to set custom claims");
+      }
+
+      const data = await response.json();
+
+      // Force token refresh to get updated claims
+      await userCredential.user.getIdToken(true);
+
+      // Redirect based on user role
+      if (data.isAdmin) {
+        router.replace("/admin/dashboard");
+      } else {
+        router.replace("/dashboard");
+      }
     } catch (err: any) {
+      console.error("Login error:", err);
       const code = err?.code || "";
-      if (code === "auth/invalid-credential" || code === "auth/wrong-password") setError("Invalid email or password.");
-      else if (code === "auth/user-not-found") setError("No account exists with that email.");
-      else setError("Could not sign in. Please try again.");
+      if (
+        code === "auth/invalid-credential" ||
+        code === "auth/wrong-password"
+      ) {
+        setError("Invalid email or password.");
+      } else if (code === "auth/user-not-found") {
+        setError("No account exists with that email.");
+      } else if (err.message === "Failed to set custom claims") {
+        setError("Failed to set user permissions. Please try again.");
+      } else {
+        setError("Could not sign in. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -46,7 +90,7 @@ export default function LoginPage() {
             className="hidden md:block relative w-full h-[500px] rounded-2xl overflow-hidden"
           >
             <Image
-              src="/hero-ai.png" 
+              src="/hero-ai.png"
               alt="AI-generated fitness image"
               layout="fill"
               objectFit="cover"
@@ -54,7 +98,9 @@ export default function LoginPage() {
             <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent"></div>
             <div className="absolute bottom-8 left-8 text-white">
               <h2 className="text-3xl font-bold">Track Your Progress.</h2>
-              <p className="text-lg mt-2 text-gray-300">Achieve your goals one step at a time.</p>
+              <p className="text-lg mt-2 text-gray-300">
+                Achieve your goals one step at a time.
+              </p>
             </div>
           </motion.div>
 
@@ -67,17 +113,30 @@ export default function LoginPage() {
           >
             <div className="bg-gray-800 shadow-2xl rounded-2xl p-8 md:p-12">
               <div className="text-center mb-8">
-                <h1 className="text-3xl md:text-4xl font-bold text-white">Welcome Back</h1>
-                <p className="text-gray-400 mt-2">Sign in to continue your fitness journey.</p>
+                <h1 className="text-3xl md:text-4xl font-bold text-white">
+                  Welcome Back
+                </h1>
+                <p className="text-gray-400 mt-2">
+                  Sign in to continue your fitness journey.
+                </p>
               </div>
 
               <form className="space-y-6" onSubmit={onSubmit}>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-300 mb-2"
+                  >
+                    Email Address
+                  </label>
                   <input
-                    id="email" type="email" required
+                    id="email"
+                    type="email"
+                    required
                     value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, email: e.target.value })
+                    }
                     className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
                     placeholder="you@example.com"
                     autoComplete="email"
@@ -86,25 +145,42 @@ export default function LoginPage() {
 
                 <div>
                   <div className="flex justify-between items-center mb-2">
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-300">Password</label>
-                    <Link href="/reset-password" className="text-sm text-green-400 hover:text-green-500">Forgot password?</Link>
+                    <label
+                      htmlFor="password"
+                      className="block text-sm font-medium text-gray-300"
+                    >
+                      Password
+                    </label>
+                    <Link
+                      href="/reset-password"
+                      className="text-sm text-green-400 hover:text-green-500"
+                    >
+                      Forgot password?
+                    </Link>
                   </div>
                   <input
-                    id="password" type="password" required
+                    id="password"
+                    type="password"
+                    required
                     value={form.password}
-                    onChange={(e) => setForm({ ...form, password: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, password: e.target.value })
+                    }
                     className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
                     placeholder="••••••••"
                     autoComplete="current-password"
                   />
                 </div>
 
-                {error && <p className="text-red-400 text-sm text-center">{error}</p>}
+                {error && (
+                  <p className="text-red-400 text-sm text-center">{error}</p>
+                )}
 
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  type="submit" disabled={loading}
+                  type="submit"
+                  disabled={loading}
                   className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg text-lg flex items-center justify-center gap-2 disabled:opacity-70 shadow-lg shadow-green-500/20"
                 >
                   <span>{loading ? "Signing In..." : "Sign In"}</span>
@@ -115,7 +191,12 @@ export default function LoginPage() {
               <div className="text-center mt-8">
                 <p className="text-gray-400">
                   Don't have an account?{" "}
-                  <Link href="/signup" className="font-medium text-green-400 hover:text-green-500">Sign Up</Link>
+                  <Link
+                    href="/signup"
+                    className="font-medium text-green-400 hover:text-green-500"
+                  >
+                    Sign Up
+                  </Link>
                 </p>
               </div>
             </div>
