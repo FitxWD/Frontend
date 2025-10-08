@@ -64,12 +64,12 @@ export default function SignupPage() {
             <div className="bg-gray-800 shadow-2xl rounded-2xl p-8 md:p-12">
               <div className="text-center mb-8">
                 <h1 className="text-3xl md:text-4xl font-bold text-white">Start Your Journey</h1>
-                <p className="text-gray-400 mt-2">Create an account to get your personalized plan.</p>
+                <p className="text-gray-400 mt-2 text-xl">Create an account to get your personalized plan.</p>
               </div>
 
               <form className="space-y-6" onSubmit={onSubmit}>
                 <div>
-                  <label htmlFor="fullname" className="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+                  <label htmlFor="fullname" className="block text-lg font-medium text-gray-300 mb-2">Full Name</label>
                   <input
                     id="fullname" required
                     value={form.fullname}
@@ -80,7 +80,7 @@ export default function SignupPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
+                  <label htmlFor="email" className="block text-lg font-medium text-gray-300 mb-2">Email Address</label>
                   <input
                     id="email" type="email" required
                     value={form.email}
@@ -91,7 +91,7 @@ export default function SignupPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">Password</label>
+                  <label htmlFor="password" className="block text-lg font-medium text-gray-300 mb-2">Password</label>
                   <input
                     id="password" type="password" required
                     value={form.password}
@@ -101,7 +101,7 @@ export default function SignupPage() {
                   />
                 </div>
 
-                {error && <p className="text-red-400 text-sm text-center">{error}</p>}
+                {error && <p className="text-red-400 text-lg text-center">{error}</p>}
 
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -115,7 +115,7 @@ export default function SignupPage() {
               </form>
 
               <div className="text-center mt-8">
-                <p className="text-gray-400">
+                <p className="text-gray-400 text-lg">
                   Already have an account?{" "}
                   <Link href="/login" className="font-medium text-green-400 hover:text-green-500">Sign In</Link>
                 </p>

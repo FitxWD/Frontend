@@ -175,7 +175,7 @@ export default function GeneratePlanPage() {
                   <FaDumbbell className="w-12 h-12 mb-3" />
                   <h3 className="text-xl font-bold mb-2">Fitness Plan</h3>
                   <p className="text-sm opacity-90">
-                    Design a workout routine tailored to your goals
+                    Create a personalized workout routine
                   </p>
                 </motion.button>
               </div>

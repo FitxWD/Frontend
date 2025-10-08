@@ -57,9 +57,9 @@ const Logo = ({
             exit="hidden"
             variants={textVariants}
             transition={{ duration: 0.2 }}
-            className="text-2xl font-bold text-white whitespace-nowrap"
+            className="text-xl font-bold text-white whitespace-nowrap"
           >
-            AI Coach
+            Wellness Assistant
           </motion.h1>
         )}
       </AnimatePresence>
