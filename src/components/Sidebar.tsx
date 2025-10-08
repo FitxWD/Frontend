@@ -8,7 +8,7 @@ import {
   UserCircleIcon,
   PlusCircleIcon,
   ArrowLeftCircleIcon,
-  PlayCircleIcon,
+  ChatBubbleBottomCenterTextIcon,
   ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
@@ -233,6 +233,7 @@ export default function Sidebar({ onToggle }: SidebarProps) {
       href: "/chat",
       icon: ChatBubbleLeftRightIcon, // Import this from heroicons
     },
+    { label: "Feedback", href: "/feedback", icon: ChatBubbleBottomCenterTextIcon },
     { label: "Settings", href: "/settings", icon: Cog6ToothIcon },
   ];
 
