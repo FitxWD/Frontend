@@ -1,59 +1,45 @@
 "use client";
 
-import Sidebar from "@/components/Sidebar";
-import FloatingChat from "@/components/FloatingChat";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import AdminSidebar from "@/components/AdminSidebar";
 import { Toaster } from "react-hot-toast";
 
-export default function AuthenticatedLayout({
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const { user, loading } = useAuth();
   const router = useRouter();
-  const pathname = usePathname();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
-  // Add check for admin routes
-  const isAdminRoute = pathname?.startsWith("/admin");
-  const showSidebar = !isAdminRoute && pathname !== "/health-data";
-
-  // Redirect to login if not authenticated
   useEffect(() => {
     if (!loading && !user) {
       router.replace("/login");
     }
   }, [user, loading, router]);
 
-  // Show loading state
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-900">
-        <div className="h-32 w-32 animate-spin rounded-full border-t-2 border-b-2 border-green-500"></div>
+        <div className="h-32 w-32 animate-spin rounded-full border-t-2 border-b-2 border-red-500"></div>
       </div>
     );
   }
 
-  // Only render content if authenticated
   if (!user) {
     return null;
   }
 
   return (
     <div className="flex min-h-screen bg-gray-900 text-gray-200">
-      {showSidebar && (
-        <Sidebar onToggle={(collapsed) => setIsSidebarCollapsed(collapsed)} />
-      )}
-      <main
-        className={`flex-1 overflow-auto relative ${
-          !showSidebar ? "w-full" : ""
-        }`}
-      >
+      <AdminSidebar
+        onToggle={(collapsed) => setIsSidebarCollapsed(collapsed)}
+      />
+      <main className="flex-1 overflow-auto">
         {children}
-        <FloatingChat />
         <Toaster position="top-center" />
       </main>
     </div>
