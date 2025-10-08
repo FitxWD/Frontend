@@ -3,7 +3,7 @@
 import Sidebar from "@/components/Sidebar";
 import FloatingChat from "@/components/FloatingChat";
 import { useAuth } from "@/contexts/AuthContext";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 
@@ -14,6 +14,7 @@ export default function AuthenticatedLayout({
 }) {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   // Redirect to login if not authenticated
@@ -22,7 +23,6 @@ export default function AuthenticatedLayout({
       router.push("/login");
     }
   }, [user, loading, router]);
-  
 
   // Show loading state
   if (loading) {
@@ -38,10 +38,19 @@ export default function AuthenticatedLayout({
     return null; // Return null during redirect
   }
 
+  // Add a check for the health-data route
+  const showSidebar = pathname !== "/health-data";
+
   return (
     <div className="flex min-h-screen bg-gray-900 text-gray-200">
-      <Sidebar onToggle={(collapsed) => setIsSidebarCollapsed(collapsed)} />
-      <main className="flex-1 overflow-auto relative">
+      {showSidebar && (
+        <Sidebar onToggle={(collapsed) => setIsSidebarCollapsed(collapsed)} />
+      )}
+      <main
+        className={`flex-1 overflow-auto relative ${
+          !showSidebar ? "w-full" : ""
+        }`}
+      >
         {children}
         <FloatingChat />
         <Toaster position="top-center" />

@@ -143,6 +143,13 @@ type UserProfileProps = {
 const UserProfile = ({ user, signOut, collapsed }: UserProfileProps) => {
   const displayName = user?.displayName || user?.email?.split("@")[0] || "User";
 
+  const handleSignOut = () => {
+    // Clear all localStorage items
+    localStorage.clear();
+    // Call the original signOut function
+    signOut();
+  };
+
   return (
     <div className="border-t border-gray-700 pt-4 mt-4">
       <div className="flex items-center gap-3 p-3">
@@ -173,7 +180,7 @@ const UserProfile = ({ user, signOut, collapsed }: UserProfileProps) => {
             exit="hidden"
             variants={textVariants}
             transition={{ duration: 0.2, delay: 0.2 }}
-            onClick={signOut}
+            onClick={handleSignOut}
             className="w-full text-left p-3 hover:bg-gray-700 rounded-lg transition-colors text-gray-400 hover:text-white flex items-center gap-3"
           >
             Sign Out
@@ -211,16 +218,16 @@ export default function Sidebar({ onToggle }: SidebarProps) {
     { label: "Dashboard", href: "/dashboard", icon: ChartBarIcon },
     { label: "Generate Plan", href: "/generate-plan", icon: PlusCircleIcon },
     { label: "Plan History", href: "/plan-history", icon: ClockIcon },
-    {
-      label: "Display Diet Plans",
-      href: "/display-dietPlan",
-      icon: PlayCircleIcon,
-    },
-    {
-      label: "Display Workout Plans",
-      href: "/display-workout",
-      icon: PlayCircleIcon,
-    },
+    // {
+    //   label: "Display Diet Plans",
+    //   href: "/display-dietPlan",
+    //   icon: PlayCircleIcon,
+    // },
+    // {
+    //   label: "Display Workout Plans",
+    //   href: "/display-workout",
+    //   icon: PlayCircleIcon,
+    // },
     {
       label: "Chat Assistant",
       href: "/chat",

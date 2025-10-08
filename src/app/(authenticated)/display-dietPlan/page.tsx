@@ -128,7 +128,10 @@ const MealCard = ({ meal }: { meal: Meal }) => (
 export default function DietsPage() {
   const searchParams = useSearchParams();
   const assignedPlanId = searchParams.get("plan");
-  const [showAcceptance, setShowAcceptance] = useState(true);
+  const showFromHistory = searchParams.get("show") === "true";
+  const [showAcceptance, setShowAcceptance] = useState(
+    !showFromHistory && !!assignedPlanId
+  );
 
   const [planData, setPlanData] = useState<DietPlan | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -225,7 +228,7 @@ export default function DietsPage() {
 
       {/* Plan Acceptance Notification */}
       <AnimatePresence>
-        {assignedPlanId && showAcceptance && (
+        {!showFromHistory && assignedPlanId && showAcceptance && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
