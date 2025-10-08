@@ -137,13 +137,13 @@ const fitnessQuestions = [
   {
     id: "sleepHours",
     label: "How many hours of sleep do you usually get per day?",
-    type: "number",
+    type: "float",
     placeholder: "e.g., 8",
   },
   {
     id: "waterIntake",
     label: "How many litres of water do you usually drink in a day?",
-    type: "number",
+    type: "float",
     placeholder: "e.g., 2.5",
   },
   {

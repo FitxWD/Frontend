@@ -54,7 +54,7 @@ export default function LoginPage() {
             <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent"></div>
             <div className="absolute bottom-8 left-8 text-white">
               <h2 className="text-3xl font-bold">Track Your Progress.</h2>
-              <p className="text-lg mt-2 text-gray-300">Achieve your goals one step at a time.</p>
+              <p className="text-xl mt-2 text-gray-300">Achieve your goals one step at a time.</p>
             </div>
           </motion.div>
 
@@ -68,12 +68,12 @@ export default function LoginPage() {
             <div className="bg-gray-800 shadow-2xl rounded-2xl p-8 md:p-12">
               <div className="text-center mb-8">
                 <h1 className="text-3xl md:text-4xl font-bold text-white">Welcome Back</h1>
-                <p className="text-gray-400 mt-2">Sign in to continue your fitness journey.</p>
+                <p className="text-gray-400 mt-2 text-xl">Sign in to continue your fitness journey.</p>
               </div>
 
               <form className="space-y-6" onSubmit={onSubmit}>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
+                  <label htmlFor="email" className="block text-lg font-medium text-gray-300 mb-2">Email Address</label>
                   <input
                     id="email" type="email" required
                     value={form.email}
@@ -86,7 +86,7 @@ export default function LoginPage() {
 
                 <div>
                   <div className="flex justify-between items-center mb-2">
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-300">Password</label>
+                    <label htmlFor="password" className="block text-lg font-medium text-gray-300">Password</label>
                     <Link href="/reset-password" className="text-sm text-green-400 hover:text-green-500">Forgot password?</Link>
                   </div>
                   <input
@@ -113,7 +113,7 @@ export default function LoginPage() {
               </form>
 
               <div className="text-center mt-8">
-                <p className="text-gray-400">
+                <p className="text-gray-400 text-lg">
                   Don't have an account?{" "}
                   <Link href="/signup" className="font-medium text-green-400 hover:text-green-500">Sign Up</Link>
                 </p>

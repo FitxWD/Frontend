@@ -59,9 +59,9 @@ export default function VoiceAssistant({ planType }: VoiceAssistantProps) {
 
   // Dynamic title based on plan type
   const getTitle = () => {
-    if (planType === "diet") return "AI Nutrition Coach";
-    if (planType === "fitness") return "AI Fitness Coach";
-    return "AI Wellness Coach";
+    if (planType === "diet") return "AI Nutrition Assistant";
+    if (planType === "fitness") return "AI Fitness Assistant";
+    return "AI Wellness Assistant";
   };
 
   const getSubtitle = () => {
