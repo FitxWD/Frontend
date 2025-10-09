@@ -117,7 +117,7 @@ export default function AdminFeedbackPage() {
 
   return (
     <div className="p-8 md:p-12 min-h-screen">
-      <h2 className="text-4xl lg:text-5xl font-bold text-white">Admin Feedback Review</h2>
+      <h2 className="text-4xl lg:text-4xl font-bold text-white">Admin Feedback Review</h2>
       <p className="mt-2 text-gray-400">Review and manage feedback submitted by users.</p>
 
       {/* Filter Buttons */}

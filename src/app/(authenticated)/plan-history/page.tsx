@@ -326,10 +326,10 @@ export default function PlanHistoryPage() {
         <span className="capitalize text-sm font-semibold bg-green-500/20 text-green-400 px-3 py-1 rounded-full">
           History
         </span>
-        <h2 className="text-4xl lg:text-5xl font-bold text-white mt-3">
+        <h2 className="text-4xl lg:text-4xl font-bold text-white mt-3">
           Plan History
         </h2>
-        <p className="mt-4 text-gray-400 max-w-3xl">
+        <p className="mt-2 text-gray-400 max-w-3xl">
           View your past diet and fitness plans, including your current active
           plans and previous attempts.
         </p>
@@ -340,7 +340,7 @@ export default function PlanHistoryPage() {
         {(historyData?.current_plans?.diet ||
           historyData?.current_plans?.fitness) && (
           <div>
-            <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+            <h3 className="text-xl font-bold text-white mb-4 -mt-5 flex items-center gap-2">
               <CheckCircleIcon className="h-6 w-6 text-green-400" />
               Active Plans
             </h3>

@@ -221,7 +221,7 @@ export default function EditWorkoutPage() {
             
             <div className="flex justify-between items-start mb-8">
                 <div>
-                    <h2 className="text-4xl font-bold text-white">Workout Plan Editor</h2>
+                    <h2 className="text-4xl lg:text-4xl font-bold text-white">Workout Plan Editor</h2>
                     <p className="text-gray-400 mt-1">Select a plan from the dropdown to begin editing.</p>
                 </div>
                 <div className="flex gap-4">

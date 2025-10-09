@@ -59,7 +59,7 @@ const Logo = ({
             transition={{ duration: 0.2 }}
             className="text-xl font-bold text-white whitespace-nowrap flex flex-col"
           >
-            Wellness<span className="text-xs">Assistant</span>
+            Wellness Assistant
           </motion.h1>
         )}
       </AnimatePresence>
@@ -181,7 +181,8 @@ const UserProfile = ({ user, signOut, collapsed }: UserProfileProps) => {
             variants={textVariants}
             transition={{ duration: 0.2, delay: 0.2 }}
             onClick={handleSignOut}
-            className="w-full text-left p-3 hover:bg-gray-700 rounded-lg transition-colors text-gray-400 hover:text-white flex items-center gap-3"
+            className="w-full p-3 rounded-lg transition-colors gap-3
+                       bg-green-500 text-white  hover:bg-green-600 shadow-sm border border-green-600 flex justify-center text-center"
           >
             Sign Out
           </motion.button>
