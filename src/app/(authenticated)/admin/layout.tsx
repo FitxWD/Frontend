@@ -34,12 +34,12 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-900 text-gray-200">
+    <div className="flex min-h-screen bg-gray-900 text-gray-200 overflow-hidden">
       <AdminSidebar
         onToggle={(collapsed) => setIsSidebarCollapsed(collapsed)}
       />
-      <main className="flex-1 overflow-auto">
-        {children}
+      <main className="flex-1 overflow-auto h-screen">
+        <div className="p-4">{children}</div>
         <Toaster position="top-center" />
       </main>
     </div>

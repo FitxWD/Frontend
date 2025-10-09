@@ -151,7 +151,7 @@ export default function DietsPage() {
       setTimeout(async () => {
         try {
           const response = await fetch(
-            `http://127.0.0.1:8000/api/v1/diet-plan/${selectedPlan}`
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/diet-plan/${selectedPlan}`
           );
           if (!response.ok) {
             throw new Error(
@@ -190,7 +190,7 @@ export default function DietsPage() {
         throw new Error("Authentication required");
       }
 
-      const response = await fetch("http://localhost:8000/api/v1/accept-plan", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/accept-plan`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

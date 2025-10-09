@@ -110,7 +110,7 @@ export default function EditWorkoutPage() {
         const fetchPlanDetails = async () => {
             setIsLoading(true);
             try {
-                const response = await fetch(`http://localhost:8000/api/v1/workout-plan/${selectedPlanId}`);
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/workout-plan/${selectedPlanId}`);
                 if (!response.ok) throw new Error("Failed to fetch plan details.");
                 setPlanData(await response.json());
             } catch (err) {
@@ -193,7 +193,7 @@ export default function EditWorkoutPage() {
 
         try {
             const token = await user?.getIdToken();
-            const response = await fetch(`http://localhost:8000/api/v1/admin/workout-plan/${selectedPlanId}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/admin/workout-plan/${selectedPlanId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
                 body: JSON.stringify(planData)

@@ -80,7 +80,7 @@ export default function AdminDashboardPage() {
                 throw new Error("User is not authenticated.");
             }
             const token = await user.getIdToken();
-            const response = await fetch(`http://localhost:8000/api/v1/admin/dashboard-stats`, { headers: { Authorization: `Bearer ${token}` } });
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/admin/dashboard-stats`, { headers: { Authorization: `Bearer ${token}` } });
             if (!response.ok) throw new Error((await response.json()).detail || "Failed to fetch stats.");
             setStats(await response.json());
         } catch (err) { 
@@ -109,7 +109,7 @@ export default function AdminDashboardPage() {
         <div className="p-8 md:p-12 min-h-screen">
             <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
                 <h2 className="text-4xl lg:text-5xl font-bold text-white">Admin Overview</h2>
-                <p className="mt-2 text-gray-400">Welcome back, here's a snapshot of your app's activity.</p>
+                <p className="mt-2 text-gray-400">Welcome back, here&apos;s a snapshot of your app&apos;s activity.</p>
             </motion.div>
             
             {error && (
@@ -160,7 +160,7 @@ export default function AdminDashboardPage() {
                                                 <span className="text-gray-400 truncate max-w-[150px]">{fb.userEmail}</span>
                                                 <div className="flex text-yellow-400"><StarIcon className="h-4 w-4 mr-1"/>{fb.rating}/5</div>
                                             </div>
-                                            <p className="text-sm text-gray-200 mt-1 truncate">"{fb.text}"</p>
+                                            <p className="text-sm text-gray-200 mt-1 truncate">&quot;{fb.text}&quot;</p>
                                         </div>
                                     )) : <p className="text-sm text-gray-500 text-center pt-10">No new feedback.</p>}
                                 </div>

@@ -37,7 +37,7 @@ const Logo = ({
   collapsed: boolean;
   toggleSidebar: () => void;
 }) => (
-  <div className="flex items-center justify-between h-10 mb-12">
+  <div className="flex items-center justify-between h-10 mb-10">
     <div className="flex items-center gap-3">
       <Image
         key={collapsed.toString()}
@@ -57,9 +57,9 @@ const Logo = ({
             exit="hidden"
             variants={textVariants}
             transition={{ duration: 0.2 }}
-            className="text-xl font-bold text-white whitespace-nowrap"
+            className="text-xl font-bold text-white whitespace-nowrap flex flex-col"
           >
-            Wellness Assistant
+            Wellness<span className="text-xs">Assistant</span>
           </motion.h1>
         )}
       </AnimatePresence>

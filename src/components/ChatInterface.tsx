@@ -157,7 +157,7 @@ export default function ChatInterface({
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:8000/api/v1/rag/query", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/rag/query`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

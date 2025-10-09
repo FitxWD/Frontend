@@ -232,7 +232,7 @@ export default function VoiceAssistant({ planType }: VoiceAssistantProps) {
           formData.append("planType", planType || "diet");
           formData.append("user_id", userId); // Add user_id
 
-          const res = await fetch("http://localhost:8000/api/v1/assistant", {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/assistant`, {
             method: "POST",
             headers: {
               Authorization: `Bearer ${token}`, // Add auth header
