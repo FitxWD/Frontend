@@ -66,21 +66,58 @@ export default function Home() {
     </motion.div>
 
     {/* Right image with overlay */}
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.7, delay: 0.4 }}
-      className="relative w-full h-80 md:h-[420px] rounded-2xl overflow-hidden shadow-2xl border border-gray-800"
-    >
-      <Image
-        src="/LandingPage/ai.jpeg"
-        alt="AI assistant"
-        fill
-        className="object-cover brightness-[0.8]"
-        priority
-      />
+  
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.35 }}
+              className="relative w-full h-80 md:h-[420px] rounded-2xl overflow-visible flex items-center justify-center"
+            >
+              <div className="relative flex items-center justify-center">
+                
+                <motion.div
+                  initial={{ y: 0, opacity: 0, scale: 0.98 }}
+                  animate={{ y: -80, opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 0.45 }}
+                  className="relative w-[220px] h-[220px] md:w-[350px] md:h-[350px] rounded-full overflow-hidden border-2 border-green-500 shadow-2xl"
+                  whileHover={{
+        scale: 1.08,
+        boxShadow: "0 0 35px rgba(34, 197, 94, 0.55), 0 0 60px rgba(34, 197, 94, 0.25)",
+        filter: "brightness(1.1)",
+      }}
+                >
+      
+                  <Image
+                    src="/LandingPage/eat.jpg"
+                    alt="Healthy meal"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </motion.div>
 
-    </motion.div>
+                <motion.div
+                  initial={{ y: 20, x: 0, opacity: 0, rotate: -2 }}
+                  animate={{ y: 40, x: -30, opacity: 1, rotate: 0 }}
+                  transition={{ duration: 0.7, delay: 0.6 }}
+                  className="relative w-[220px] h-[220px] md:w-[350px] md:h-[350px] rounded-full overflow-hidden border-2 border-green-500 shadow-2xl -ml-12 md:-ml-16 translate-y-6 md:translate-y-10"
+                  whileHover={{
+        scale: 1.08,
+        boxShadow: "0 0 35px rgba(34, 197, 94, 0.55), 0 0 60px rgba(34, 197, 94, 0.25)",
+        filter: "brightness(1.1)",
+      }}
+                >
+                  <Image
+                    src="/LandingPage/fit.jpeg"
+                    alt="Workout scene"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </motion.div>
+              </div>
+            </motion.div>
+
   </div>
 
   {/* Soft background glow */}
@@ -105,55 +142,75 @@ export default function Home() {
   </div>
 
   {/* Cards container */}
-  <div className="flex flex-col md:flex-row justify-center items-center gap-10 md:gap-40">
+  <div className="flex flex-col md:flex-row justify-center items-center gap-10 md:gap-30">
     {/* Diet card */}
-    <motion.div
-      variants={cardVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
-      whileHover={{ scale: 1.03, y: -8 }}
-      transition={{ duration: 0.4 }}
-      className="flex-1 max-w-[380px] h-[410px] bg-gradient-to-b from-green-500/20 via-green-600/10 to-transparent
-                 border border-green-500/30 rounded-2xl shadow-[0_0_30px_rgba(34,197,94,0.15)]
-                 hover:shadow-[0_0_40px_rgba(34,197,94,0.35)] overflow-hidden backdrop-blur-md"
-    >
-      <div className="relative h-full flex flex-col justify-between p-8">
-        <div>
-          <div className="flex items-center justify-center mb-4">
-            <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-green-600/10 border border-green-600">
-              <svg className="w-8 h-8 text-green-400" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M7 7v10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                <path d="M17 7v10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+<motion.div
+  variants={cardVariants}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true, amount: 0.3 }}
+  whileHover={{ scale: 1.03, y: -8 }}
+  transition={{ duration: 0.4 }}
+  className="flex-1 max-w-[380px] h-[370px] bg-gradient-to-b from-green-500/20 via-green-600/10 to-transparent
+             border border-green-500/30 rounded-2xl shadow-[0_0_30px_rgba(34,197,94,0.15)]
+             hover:shadow-[0_0_40px_rgba(34,197,94,0.35)] overflow-hidden backdrop-blur-md"
+>
+  <div className="relative h-full flex flex-col justify-between p-8">
+    {/* subtle gradient glow behind text */}
+    <div className="absolute inset-0 bg-gradient-to-t from-green-900/10 via-transparent to-transparent pointer-events-none"></div>
+
+    <div className="relative z-10">
+      {/* elegant divider line with glow */}
+      <div className="w-12 h-1 mx-auto mb-4 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full shadow-[0_0_10px_rgba(34,197,94,0.4)]"></div>
+
+      <h3 className="text-2xl font-bold text-white text-center mb-4 tracking-wide">
+        Personalized Diet Plans
+      </h3>
+
+      <p className="text-gray-300 text-center text-lg leading-relaxed mb-6">
+        Tailored meal plans that fit your goals, allergies and daily routine with simple recipes and shopping lists.
+      </p>
+
+      {/* Stylish List */}
+      <ul className="space-y-3 text-md text-gray-300 px-2">
+        {[
+          "Calorie & macronutrient targets",
+          "Simple recipes & shopping lists",
+          "Adjusts for allergies & medical needs",
+        ].map((text, index) => (
+          <li
+            key={index}
+            className="flex items-center gap-3 group"
+          >
+            {/* glowing check circle */}
+            <div className="w-5 h-5 flex items-center justify-center rounded-full 
+                            bg-gradient-to-r from-green-400 to-emerald-500 
+                            shadow-[0_0_10px_rgba(34,197,94,0.6)] 
+                            group-hover:scale-110 transition-transform duration-300">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-3.5 h-3.5"
+              >
+                <path d="M20 6L9 17l-5-5" />
               </svg>
             </div>
-          </div>
+            <span className="group-hover:text-white transition-colors duration-300">
+              {text}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</motion.div>
 
-          <h3 className="text-2xl font-bold text-white text-center mb-3">Personalized Diet Plans</h3>
-          <p className="text-gray-300 text-center text-lg leading-relaxed mb-6">
-            Tailored meal plans that fit your goals, allergies and daily routine with simple recipes and shopping lists.
-          </p>
-
-          <ul className="space-y-3 text-sm text-gray-300 px-2">
-            <li className="flex items-center gap-3">
-              <span className="w-5 h-5 rounded-full bg-green-500/20 text-green-300 flex items-center justify-center text-xl"></span>
-              Calorie & macronutrient targets
-            </li>
-            <li className="flex items-center gap-3">
-              <span className="w-5 h-5 rounded-full bg-green-500/20 text-green-300 flex items-center justify-center text-xl"></span>
-              Simple recipes & shopping lists
-            </li>
-            <li className="flex items-center gap-3">
-              <span className="w-5 h-5 rounded-full bg-green-500/20 text-green-300 flex items-center justify-center text-xl"></span>
-              Adjusts for allergies & medical needs
-            </li>
-          </ul>
-        </div>
-      </div>
-    </motion.div>
-
-    {/* Fitness card */}
+    {/* Fitness card - updated to match Diet card style */}
     <motion.div
       variants={cardVariants}
       initial="hidden"
@@ -161,46 +218,61 @@ export default function Home() {
       viewport={{ once: true, amount: 0.3 }}
       whileHover={{ scale: 1.03, y: -8 }}
       transition={{ duration: 0.4, delay: 0.06 }}
-      className="flex-1 max-w-[380px] h-[410px] bg-gradient-to-b from-green-500/20 via-green-600/10 to-transparent
+      className="flex-1 max-w-[380px] h-[370px] bg-gradient-to-b from-green-500/20 via-green-600/10 to-transparent
                  border border-green-500/30 rounded-2xl shadow-[0_0_30px_rgba(34,197,94,0.15)]
                  hover:shadow-[0_0_40px_rgba(34,197,94,0.35)] overflow-hidden backdrop-blur-md"
     >
       <div className="relative h-full flex flex-col justify-between p-8">
-        <div>
-          <div className="flex items-center justify-center mb-4">
-            <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-green-600/10 border border-green-600">
-              <svg className="w-8 h-8 text-green-400" viewBox="0 0 24 24" fill="none">
-                <path d="M6 9v6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                <path d="M18 9v6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                <rect x="8" y="10" width="8" height="4" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
-              </svg>
-            </div>
-          </div>
+        {/* subtle gradient glow behind text */}
+        <div className="absolute inset-0 bg-gradient-to-t from-green-900/10 via-transparent to-transparent pointer-events-none"></div>
 
-          <h3 className="text-2xl font-bold text-white text-center mb-3">Progressive Fitness Plans</h3>
+        <div className="relative z-10">
+          {/* elegant divider line with glow */}
+          <div className="w-12 h-1 mx-auto mb-4 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full shadow-[0_0_10px_rgba(34,197,94,0.4)]"></div>
+
+          <h3 className="text-2xl font-bold text-white text-center mb-4 tracking-wide">
+            Progressive Fitness Plans
+          </h3>
+
           <p className="text-gray-300 text-center text-lg leading-relaxed mb-6">
             Workouts that adapt to your equipment, time, and progress with weekly schedules and guidance.
           </p>
 
-          <ul className="space-y-3 text-sm text-gray-300 px-2">
-            <li className="flex items-center gap-3">
-              <span className="w-5 h-5 rounded-full bg-green-500/20 text-green-300 flex items-center justify-center text-xl"></span>
-              Weekly schedules & progressions
-            </li>
-            <li className="flex items-center gap-3">
-              <span className="w-5 h-5 rounded-full bg-green-500/20 text-green-300 flex items-center justify-center text-xl"></span>
-              Equipment-free & gym options
-            </li>
-            <li className="flex items-center gap-3">
-              <span className="w-5 h-5 rounded-full bg-green-500/20 text-green-300 flex items-center justify-center text-xl"></span>
-              Recovery & mobility guidance
-            </li>
+          {/* Stylish List (same glowing checks as Diet card) */}
+          <ul className="space-y-3 text-md text-gray-300 px-2">
+            {[
+              "Weekly schedules & progressions",
+              "Equipment-free & gym options",
+              "Recovery & mobility guidance",
+            ].map((text, index) => (
+              <li key={index} className="flex items-center gap-3 group">
+                <div className="w-5 h-5 flex items-center justify-center rounded-full 
+                                bg-gradient-to-r from-green-400 to-emerald-500 
+                                shadow-[0_0_10px_rgba(34,197,94,0.6)] 
+                                group-hover:scale-110 transition-transform duration-300">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="w-3.5 h-3.5"
+                  >
+                    <path d="M20 6L9 17l-5-5" />
+                  </svg>
+                </div>
+                <span className="group-hover:text-white transition-colors duration-300">
+                  {text}
+                </span>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
     </motion.div>
-  </div>
-
+</div>
 </motion.section>
 
         {/* GET STARTED STEPS */}
@@ -212,7 +284,7 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-green-500/20 transition-all duration-300 transform hover:scale-105">
-              <Image src="/LandingPage/2.jpg" alt="Tell goals" width={800} height={600} className="w-full h-64 object-cover"/>
+              <Image src="/LandingPage/chat.jpg" alt="Tell goals" width={800} height={600} className="w-full h-64 object-cover"/>
               <div className="p-6">
                 <h3 className="font-bold text-xl text-white mb-2">1. Tell Us Your Goals</h3>
                 <p className="text-gray-400">Share fitness targets or dietary needs via chatting with our assistant or filling the form.</p>
@@ -228,7 +300,7 @@ export default function Home() {
             </div>
 
             <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-green-500/20 transition-all duration-300 transform hover:scale-105">
-              <Image src="/LandingPage/3.webp" alt="Evolve" width={800} height={600} className="w-full h-64 object-cover"/>
+              <Image src="/LandingPage/workout.jpeg" alt="Evolve" width={800} height={600} className="w-full h-64 object-cover"/>
               <div className="p-6">
                 <h3 className="font-bold text-xl text-white mb-2">3. Evolve With You</h3>
                 <p className="text-gray-400">Swap meals, change workouts, and keep progress in sync with real life.</p>
@@ -238,24 +310,61 @@ export default function Home() {
         </motion.section>
 
         {/* FEATURES */}
-        <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="py-24">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div className="space-y-6">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-white">Designed for Real Life, Not Robots</h2>
-              <p className="text-xl text-gray-400 mt-3">We combine nutrition science and exercise physiology to deliver simple daily actions — meals, workouts, and tweaks that fit your schedule.</p>
+  
+        <motion.section
+          variants={sectionVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          className="py-24 relative"
+        >
+          {/* Subtle background glow */}
+          <div className="absolute inset-0 bg-gradient-to-b from-green-900/10 via-transparent to-transparent blur-3xl"></div>
 
-              <ul className="mt-6 space-y-3 text-lg">
-                <li className="flex items-start gap-3"><CheckCircleIcon className="h-6 w-6 text-green-500 mt-1" /> <span className="text-gray-300">Adaptive meal plans that consider allergies and medical conditions</span></li>
-                <li className="flex items-start gap-3"><CheckCircleIcon className="h-6 w-6 text-green-500 mt-1" /> <span className="text-gray-300">Workouts that progress based on your feedback and results</span></li>
-                <li className="flex items-start gap-3"><CheckCircleIcon className="h-6 w-6 text-green-500 mt-1" /> <span className="text-gray-300">Shopping lists, recipes, mobility and recovery tips</span></li>
+          <div className="grid md:grid-cols-2 gap-16 items-center relative z-10">
+            {/* Left Content */}
+            <div className="space-y-6">
+              <h2 className="text-3xl md:text-4xl font-extrabold text-white leading-snug">
+                Designed for Real Life, Not Robots
+              </h2>
+
+              <p className="text-xl text-gray-300 mt-3">
+                We blend modern nutrition science and exercise physiology to craft simple, realistic daily actions — meals,
+                workouts, and lifestyle tweaks that adapt to your world.
+              </p>
+
+              {/* Replaced checkmarks with sleek glowing bullets */}
+              <ul className="mt-6 space-y-4 text-lg text-gray-300">
+                {[
+                  "Adaptive meal plans built around your needs and preferences",
+                  "Workouts that evolve with your feedback and progress",
+                  "Smart tips for shopping, recovery, and mobility",
+                ].map((feature, i) => (
+                  <li key={i} className="flex items-start gap-3 group">
+                    <div className="w-3 h-3 mt-2 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 
+                                    shadow-[0_0_10px_rgba(34,197,94,0.6)] group-hover:scale-125 transition-transform duration-300"></div>
+                    <span className="group-hover:text-white transition-colors duration-300">
+                      {feature}
+                    </span>
+                  </li>
+                ))}
               </ul>
             </div>
 
-            <div className="relative w-full h-96 rounded-lg shadow-2xl overflow-hidden">
-              <Image src="/LandingPage/5.webp" alt="Feature image" fill className="object-cover rounded-lg" />
+            {/* Right Image */}
+            <div className="relative w-full h-96 rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(34,197,94,0.2)]">
+              <Image
+                src="/LandingPage/trainer.jpg"
+                alt="Feature image"
+                fill
+                className="object-cover rounded-2xl brightness-90 hover:brightness-100 transition-all duration-500"
+              />
+              {/* Soft gradient overlay for harmony */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
             </div>
           </div>
         </motion.section>
+
 
         {/* TESTIMONIALS */}
 <motion.section

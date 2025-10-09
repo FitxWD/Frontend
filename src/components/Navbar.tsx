@@ -14,7 +14,7 @@ const Navbar = () => {
             height={45}   
             className="rounded-full border-2 border-green-500"
           />
-          <span className="font-extrabold text-xl text-white tracking-wide hidden sm:block">
+          <span className="font-bold text-xl text-white tracking-wide hidden sm:block">
             Wellness Assistant
           </span>
         </Link>
