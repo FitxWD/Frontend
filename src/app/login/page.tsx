@@ -33,7 +33,7 @@ export default function LoginPage() {
 
       // Then, check/set custom claims
       const response = await fetch(
-        "http://localhost:8000/api/v1/set-custom-claim",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/set-custom-claim`,
         {
           method: "POST",
           headers: {
@@ -169,7 +169,7 @@ export default function LoginPage() {
 
               <div className="text-center mt-8">
                 <p className="text-gray-400 text-lg">
-                  Don't have an account?{" "}
+                  Don&apos;t have an account?{" "}
                   <Link
                     href="/signup"
                     className="font-medium text-green-400 hover:text-green-500"

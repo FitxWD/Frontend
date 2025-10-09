@@ -273,7 +273,7 @@ export default function PlanHistoryPage() {
       try {
         const token = await user?.getIdToken();
         const response = await fetch(
-          "http://localhost:8000/api/v1/plan-history",
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/plan-history`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

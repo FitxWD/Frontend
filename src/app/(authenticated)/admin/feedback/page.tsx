@@ -69,7 +69,7 @@ export default function AdminFeedbackPage() {
       try {
         const token = await user.getIdToken();
         const response = await fetch(
-          `http://localhost:8000/api/v1/admin/feedbacks?status=${filter}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/admin/feedbacks?status=${filter}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -93,7 +93,7 @@ export default function AdminFeedbackPage() {
     try {
       const token = await user?.getIdToken();
       const response = await fetch(
-        `http://localhost:8000/api/v1/admin/feedback/${feedbackId}/status`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/admin/feedback/${feedbackId}/status`,
         {
           method: "PUT",
           headers: {

@@ -291,7 +291,7 @@ export default function PlanForm({
       }, {} as Record<string, string>);
 
       const response = await fetch(
-        "http://localhost:8000/api/v1/generate-plan",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/generate-plan`,
         {
           method: "POST",
           headers: {

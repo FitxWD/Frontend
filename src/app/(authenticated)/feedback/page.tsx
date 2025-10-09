@@ -69,7 +69,7 @@ export default function FeedbackPage() {
       if (!user) return;
       try {
         const token = await user.getIdToken();
-        const response = await fetch("http://localhost:8000/api/v1/plan-history", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/plan-history`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -122,7 +122,7 @@ export default function FeedbackPage() {
     setIsSubmitting(true);
     try {
       const token = await user?.getIdToken();
-      const response = await fetch("http://localhost:8000/api/v1/feedback", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/feedback`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

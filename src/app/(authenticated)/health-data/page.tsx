@@ -24,7 +24,7 @@ export default function HealthDataPage() {
       if (!user) throw new Error("Not logged in. Please sign in again.");
       const token = await user.getIdToken();
 
-      const res = await fetch("http://127.0.0.1:8000/api/v1/profile-health-update", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/profile-health-update`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -78,7 +78,7 @@ export default function HealthDataPage() {
             <div className="absolute bottom-10 left-10 text-white">
               <h2 className="text-4xl font-bold leading-tight">The First Step to a<br/>Smarter Plan.</h2>
               <p className="text-lg mt-3 text-gray-300 max-w-md">
-                Your answers help our AI understand your body's unique needs to craft the perfect plan.
+                Your answers help our AI understand your body&apos;s unique needs to craft the perfect plan.
               </p>
             </div>
           </motion.div>
@@ -94,7 +94,7 @@ export default function HealthDataPage() {
               Tell Us About You
             </h1>
             <p className="text-gray-400 mb-8">
-              Let's get some basics to personalize your experience.
+              Let&apos;s get some basics to personalize your experience.
             </p>
 
             <form className="space-y-6" onSubmit={onSubmit}>
