@@ -4,13 +4,11 @@ import { useAuth } from "@/contexts/AuthContext";
 import {
   ChartBarIcon,
   UserGroupIcon,
-  ListBulletIcon,
   ArrowLeftCircleIcon,
   UserCircleIcon,
   ChatBubbleBottomCenterTextIcon,
-  ClipboardDocumentListIcon,
-  HeartIcon,
 } from "@heroicons/react/24/solid";
+import { FaDumbbell, FaUtensils } from "react-icons/fa";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -26,18 +24,10 @@ const textVariants = {
 // Admin navigation items
 const navItems = [
   { label: "Dashboard", href: "/admin/dashboard", icon: ChartBarIcon },
-  {
-    label: "Diet Plans",
-    href: "/admin/diet-plans",
-    icon: ClipboardDocumentListIcon,
-  },
-  { label: "Workout Plans", href: "/admin/workout-plans", icon: HeartIcon },
+  { label: "Diet Plans", href: "/admin/diet-plans", icon: FaUtensils},
+  { label: "Workout Plans", href: "/admin/workout-plans", icon: FaDumbbell },
   { label: "User Management", href: "/admin/users", icon: UserGroupIcon },
-  {
-    label: "Feedback",
-    href: "/admin/feedback",
-    icon: ChatBubbleBottomCenterTextIcon,
-  },
+  { label: "Feedback", href: "/admin/feedback", icon: ChatBubbleBottomCenterTextIcon,},
 ];
 
 interface AdminSidebarProps {
@@ -100,8 +90,8 @@ export default function AdminSidebar({ onToggle }: AdminSidebarProps) {
                   variants={textVariants}
                   className="flex flex-col"
                 >
-                  <span className="text-xl font-bold text-white">AI Coach</span>
-                  <span className="text-xs text-red-400">Admin Panel</span>
+                  <span className="text-lg font-bold text-white">Wellness Assistant</span>
+                  <span className="text-xs text-blue-500">Admin Panel</span>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -137,7 +127,7 @@ export default function AdminSidebar({ onToggle }: AdminSidebarProps) {
                 href={item.href}
                 className={`flex items-center gap-3 p-3 rounded-lg transition-colors duration-200 ${
                   isActive
-                    ? "bg-red-500/20 text-red-300"
+                    ? "bg-blue-500/20 text-blue-300"
                     : "text-gray-400 hover:bg-gray-700 hover:text-white"
                 } ${collapsed ? "justify-center" : ""}`}
               >
@@ -168,7 +158,7 @@ export default function AdminSidebar({ onToggle }: AdminSidebarProps) {
       {/* User Profile */}
       <div className="border-t border-gray-700 pt-4 mt-4">
         <div className="flex items-center gap-3 p-3">
-          <UserCircleIcon className="h-10 w-10 text-red-500 flex-shrink-0" />
+          <UserCircleIcon className="h-10 w-10 text-blue-500 flex-shrink-0" />
           <AnimatePresence>
             {!collapsed && (
               <motion.div
@@ -183,7 +173,7 @@ export default function AdminSidebar({ onToggle }: AdminSidebarProps) {
                 <p className="font-semibold text-white">
                   {user?.displayName || user?.email?.split("@")[0] || "Admin"}
                 </p>
-                <p className="text-xs text-red-400">Administrator</p>
+                <p className="text-xs text-blue-400">Administrator</p>
               </motion.div>
             )}
           </AnimatePresence>
@@ -201,8 +191,8 @@ export default function AdminSidebar({ onToggle }: AdminSidebarProps) {
                 localStorage.clear();
                 signOut();
               }}
-              className="w-full text-left p-3 hover:bg-gray-700 rounded-lg transition-colors text-gray-400 hover:text-white flex items-center gap-3"
-            >
+              className="w-full p-3 bg-blue-500 hover:bg-blue-600 rounded-lg transition-colors text-white flex justify-center text-center"
+            > 
               Sign Out
             </motion.button>
           )}

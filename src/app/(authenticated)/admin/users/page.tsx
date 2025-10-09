@@ -228,8 +228,7 @@ export default function UserManagementPage() {
                 userEmail={userToDelete?.email || ''}
                 isDeleting={isDeleting}
             />
-            <h2 className="text-4xl lg:text-5xl font-bold text-white flex items-center gap-4">
-                <UserGroupIcon className="h-12 w-12 text-blue-400" />
+            <h2 className="text-4xl lg:text-4xl font-bold text-white flex items-center gap-4">
                 User Management
             </h2>
             <p className="mt-2 text-gray-400">View, manage, and assign roles to users in your application.</p>

@@ -6,9 +6,10 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
-  UserGroupIcon, ChatBubbleBottomCenterTextIcon, HeartIcon, ClipboardDocumentListIcon, ArrowRightIcon,
+  UserGroupIcon, ChatBubbleBottomCenterTextIcon, ArrowRightIcon,
   ExclamationTriangleIcon, StarIcon, UserPlusIcon
 } from "@heroicons/react/24/solid";
+import { FaDumbbell, FaUtensils } from "react-icons/fa";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 import { format, formatDistanceToNowStrict, parseISO } from "date-fns";
 
@@ -108,7 +109,7 @@ export default function AdminDashboardPage() {
     return (
         <div className="p-8 md:p-12 min-h-screen">
             <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
-                <h2 className="text-4xl lg:text-5xl font-bold text-white">Admin Overview</h2>
+                <h2 className="text-4xl lg:text-4xl font-bold text-white">Admin Overview</h2>
                 <p className="mt-2 text-gray-400">Welcome back, here&apos;s a snapshot of your app&apos;s activity.</p>
             </motion.div>
             
@@ -128,10 +129,10 @@ export default function AdminDashboardPage() {
                 {isLoading ? <SkeletonLoader /> : stats && (
                     <>
                         {/* --- ROW 1: Top Stat Cards --- */}
-                        <StatCard title="Total Users" value={stats.totalUsers} detail={`+${stats.newUsersToday} today`} icon={UserGroupIcon} colorClass="bg-blue-500" link={{ href: "/admin/users", text: "User Management" }} />
+                        <StatCard title="Total Users" value={stats.totalUsers} detail={`+${stats.newUsersToday} today`} icon={UserGroupIcon} colorClass="bg-gray-500" link={{ href: "/admin/users", text: "User Management" }} />
                         <StatCard title="New Feedbacks" value={stats.feedbackCounts.new} detail={`${stats.feedbackCounts.reviewed} reviewed`} icon={ChatBubbleBottomCenterTextIcon} colorClass="bg-yellow-500" link={{ href: "/admin/feedback", text: "Review Feedback" }}/>
-                        <StatCard title="Workout Plans" value={stats.totalWorkoutPlans} detail={`+${stats.workoutPlansEditedToday} edited today`}  icon={HeartIcon} colorClass="bg-green-500" link={{ href: "/admin/workout-plans", text: "Edit Plans" }}/>
-                        <StatCard title="Diet Plans" value={stats.totalDietPlans} detail={`+${stats.dietPlansEditedToday} edited today`} icon={ClipboardDocumentListIcon} colorClass="bg-purple-500" link={{ href: "/admin/diet-plans", text: "Edit Plans" }}/>
+                        <StatCard title="Diet Plans" value={stats.totalDietPlans} detail={`+${stats.dietPlansEditedToday} edited today`} icon={FaUtensils} colorClass="bg-orange-500" link={{ href: "/admin/diet-plans", text: "Edit Diet Plans" }}/>
+                        <StatCard title="Workout Plans" value={stats.totalWorkoutPlans} detail={`+${stats.workoutPlansEditedToday} edited today`}  icon={FaDumbbell} colorClass="bg-purple-500" link={{ href: "/admin/workout-plans", text: "Edit Workout Plans" }}/>
                         
                         {/* --- ROW 2: User Growth Chart (Full Width) --- */}
                         <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="lg:col-span-4 bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-700/50 p-6">
@@ -171,7 +172,7 @@ export default function AdminDashboardPage() {
                                 <div className="space-y-3">
                                     {stats.recentUsers.map(ru => (
                                         <div key={ru.uid} className="flex items-center gap-3">
-                                            <UserPlusIcon className="h-5 w-5 text-blue-400"/>
+                                            <UserPlusIcon className="h-5 w-5 text-gray-400"/>
                                             <div>
                                                 <p className="text-sm text-gray-200 truncate">{ru.email}</p>
                                                 <p className="text-xs text-gray-500">Joined {format(parseISO(ru.createdAt), "MMM d, yyyy")}</p>
@@ -186,8 +187,8 @@ export default function AdminDashboardPage() {
                                 <div className="space-y-3">
                                     {stats.recentlyEditedPlans.length > 0 ? stats.recentlyEditedPlans.map(plan => (
                                         <div key={plan.id} className="flex items-center gap-3">
-                                            <div className={`p-2 rounded-md ${plan.type === 'diet' ? 'bg-purple-500/20' : 'bg-green-500/20'}`}>
-                                                {plan.type === 'diet' ? <ClipboardDocumentListIcon className="h-5 w-5 text-purple-400"/> : <HeartIcon className="h-5 w-5 text-green-400"/>}
+                                            <div className={`p-2 rounded-md ${plan.type === 'diet' ? 'bg-orange-500/20' : 'bg-purple-500/20'}`}>
+                                                {plan.type === 'diet' ? <FaUtensils className="h-5 w-5 text-orange-400"/> : <FaDumbbell className="h-5 w-5 text-purple-400"/>}
                                             </div>
                                             <div className="flex-grow">
                                                 <p className="text-sm font-semibold text-gray-200 truncate">{plan.name}</p>

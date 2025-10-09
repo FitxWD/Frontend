@@ -152,18 +152,18 @@ export default function FeedbackPage() {
   const pastPlans = allPlans.filter(p => !p.isActive);
 
   return (
-    <div className="p-8 md:p-12 min-h-screen">
+    <div className="p-6 md:p-8 min-h-[75vh]">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="mb-12">
+        <div className="mb-6">
            <span className="capitalize text-sm font-semibold bg-green-500/20 text-green-400 px-3 py-1 rounded-full">
             Feedback
           </span>
-          <h2 className="text-4xl lg:text-5xl font-bold text-white mt-3">Share Your Thoughts</h2>
-          <p className="mt-4 text-gray-400 max-w-3xl">
+          <h2 className="text-4xl lg:text-4xl font-bold text-white mt-3">Share Your Thoughts</h2>
+          <p className="mt-2 text-gray-400 max-w-4xl mb-10">
             Your insights help us improve your wellness journey. Select a plan, rate your experience, and leave a comment.
           </p>
         </div>
@@ -173,7 +173,7 @@ export default function FeedbackPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="max-w-2xl mx-auto bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-700/50 p-6 md:p-8 space-y-6"
+          className="max-w-2xl mx-auto bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-700/50 p-6 md:p-8 space-y-6 -mt-6"
         >
           {/* Plan Selector */}
           <div>
@@ -228,20 +228,20 @@ export default function FeedbackPage() {
             </label>
             <textarea
               id="feedbackText"
-              rows={5}
+              rows={4}
               value={feedbackText}
               onChange={(e) => setFeedbackText(e.target.value)}
-              className="w-full bg-gray-900 border border-gray-700 rounded-lg p-4 text-white focus:ring-2 focus:ring-green-500 transition-all"
+              className="w-full bg-gray-900 border border-gray-700 rounded-lg p-4 text-white focus:ring-2 focus:ring-green-500 transition-all "
               placeholder="Tell us what you liked or what could be improved..."
             />
           </div>
 
-          {/* Messages & Submit Button */}
-          <div className="pt-2">
+          {/* Messages & Submit Button - lifted up slightly */}
+          <div className="-mt-2">
             <AnimatePresence>
               {error && (
                 <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
-                  className="bg-red-900/50 text-red-300 p-3 rounded-lg border border-red-700 mb-4 flex items-center gap-2">
+                  className="bg-red-900/50 text-red-300 p-3 rounded-lg border border-red-700 flex items-center gap-2">
                    <XCircleIcon className="h-5 w-5" /> {error}
                 </motion.div>
               )}

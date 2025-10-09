@@ -105,7 +105,7 @@ export default function GeneratePlanPage() {
         />
       ) : (
         <div className="p-8">
-          <h1 className="text-3xl font-bold">Generate Your Plan</h1>
+          <h1 className="text-4xl font-bold">Generate Your Plan</h1>
           <p className="mt-2 text-gray-400">
             Please choose a plan type to continue.
           </p>

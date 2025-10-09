@@ -152,10 +152,10 @@ export default function SettingsPage() {
         transition={{ duration: 0.5 }}
       >
         {/* Header Section */}
-        <span className="capitalize text-sm font-semibold bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full">
+        <span className="capitalize text-sm font-semibold bg-green-500/20 text-green-400 px-3 py-1 rounded-full">
           Settings
         </span>
-        <h2 className="text-4xl lg:text-5xl font-bold text-white mt-3 capitalize">
+        <h2 className="text-4xl lg:text-4xl font-bold text-white mt-3 capitalize">
           {healthData.name}
         </h2>
         <p className="text-gray-400 mt-2 max-w-3xl">
