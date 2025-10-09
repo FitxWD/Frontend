@@ -10,7 +10,7 @@ import {
   BoltIcon, ArrowTrendingUpIcon, AdjustmentsVerticalIcon
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import EditableSection from "./EditableSection"; // <-- IMPORT THE NEW COMPONENT
+import EditableSection from "./EditableSection";
 
 // --- Types ---
 interface Exercise { name: string; duration_min?: number; sets?: number; reps?: string; example?: string; }
