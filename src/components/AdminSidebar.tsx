@@ -91,7 +91,7 @@ export default function AdminSidebar({ onToggle }: AdminSidebarProps) {
                   className="flex flex-col"
                 >
                   <span className="text-lg font-bold text-white">Wellness Assistant</span>
-                  <span className="text-xs text-blue-400">Admin Panel</span>
+                  <span className="text-xs text-blue-500">Admin Panel</span>
                 </motion.div>
               )}
             </AnimatePresence>
