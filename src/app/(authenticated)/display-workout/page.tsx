@@ -203,6 +203,7 @@ export default function WorkoutsPage() {
   const [selectedPlan, setSelectedPlan] = useState<string>(
     assignedPlanId || "gentle_start"
   );
+  const [activeDay, setActiveDay] = useState<string>("Monday");
 
   useEffect(() => {
     if (!selectedPlan) return;
@@ -248,19 +249,22 @@ export default function WorkoutsPage() {
         throw new Error("Authentication required");
       }
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/accept-plan`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          plan_id: selectedPlan,
-          plan_type: "workout",
-          user_id: userId,
-          accepted: accept,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/accept-plan`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            plan_id: selectedPlan,
+            plan_type: "workout",
+            user_id: userId,
+            accepted: accept,
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to update plan acceptance");
@@ -351,100 +355,130 @@ export default function WorkoutsPage() {
                 {planData.description}
               </p>
 
-              {/* --- WEEKLY SCHEDULE (No changes) --- */}
-              <div className="mt-12 space-y-8">
-                {planData.weekly_template.map((day) => (
-                  <motion.div
-                    key={day.day}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="bg-gray-800/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-gray-700/50"
+              {/* Day Tabs - NEW */}
+              <div className="mt-10">
+                <div className="border-b border-gray-700">
+                  <nav
+                    className="-mb-px flex space-x-6 overflow-x-auto pb-1"
+                    aria-label="Tabs"
                   >
-                    <h3 className="text-2xl font-bold text-green-400">
-                      {day.day}
-                    </h3>
-                    {day.sessions.map((session, sIndex) => {
-                      const isRestDay = session.main[0]?.name
-                        .toLowerCase()
-                        .includes("rest");
-                      if (isRestDay) {
+                    {planData.weekly_template.map((day) => (
+                      <button
+                        key={day.day}
+                        onClick={() => setActiveDay(day.day)}
+                        className={`${
+                          activeDay === day.day
+                            ? "border-green-400 text-green-400"
+                            : "border-transparent text-gray-400 hover:text-gray-200 hover:border-gray-500"
+                        } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg transition-colors`}
+                      >
+                        {day.day}
+                      </button>
+                    ))}
+                  </nav>
+                </div>
+              </div>
+
+              {/* Active Day Content - NEW */}
+              <div className="mt-8">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeDay}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -15 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {planData.weekly_template
+                      .find((day) => day.day === activeDay)
+                      ?.sessions.map((session, sIndex) => {
+                        const isRestDay = session.main[0]?.name
+                          .toLowerCase()
+                          .includes("rest");
+
+                        if (isRestDay) {
+                          return (
+                            <div
+                              key={sIndex}
+                              className="flex items-center gap-3 text-gray-400 p-6 bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-700/50"
+                            >
+                              <MoonIcon className="h-6 w-6 text-indigo-400" />
+                              <p className="font-medium">
+                                {session.main[0].name}
+                              </p>
+                            </div>
+                          );
+                        }
+
                         return (
                           <div
                             key={sIndex}
-                            className="flex items-center gap-3 text-gray-400 mt-4 p-4 bg-gray-900/50 rounded-lg"
+                            className="bg-gray-800/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-gray-700/50 mb-6"
                           >
-                            <MoonIcon className="h-6 w-6 text-indigo-400" />
-                            <p className="font-medium">
-                              {session.main[0].name}
-                            </p>
+                            <div className="space-y-4">
+                              {session.warmup && session.warmup.length > 0 && (
+                                <div>
+                                  <h4 className="font-semibold text-white flex items-center gap-2 text-lg">
+                                    <FireIcon className="h-5 w-5 text-orange-400" />
+                                    Warm-up
+                                  </h4>
+                                  {session.warmup.map((ex, i) => (
+                                    <ExerciseDetail
+                                      key={`warmup-${i}`}
+                                      exercise={ex}
+                                    />
+                                  ))}
+                                </div>
+                              )}
+                              <div>
+                                <h4 className="font-semibold text-white flex items-center gap-2 text-lg">
+                                  <ClockIcon className="h-5 w-5 text-blue-400" />
+                                  Main Workout
+                                </h4>
+                                {session.main.map((ex, i) => (
+                                  <ExerciseDetail
+                                    key={`main-${i}`}
+                                    exercise={ex}
+                                  />
+                                ))}
+                              </div>
+                              {session.cooldown &&
+                                session.cooldown.length > 0 && (
+                                  <div>
+                                    <h4 className="font-semibold text-white text-lg">
+                                      Cooldown
+                                    </h4>
+                                    {session.cooldown.map((ex, i) => (
+                                      <ExerciseDetail
+                                        key={`cooldown-${i}`}
+                                        exercise={ex}
+                                      />
+                                    ))}
+                                  </div>
+                                )}
+                              {session.safety && session.safety.length > 0 && (
+                                <div className="mt-4 p-4 rounded-lg bg-yellow-900/30 border border-yellow-700/50">
+                                  <h4 className="font-semibold text-yellow-300 flex items-center gap-2">
+                                    <ShieldCheckIcon className="h-5 w-5" />
+                                    Safety Notes
+                                  </h4>
+                                  <ul className="list-disc list-inside text-yellow-300/80 text-sm mt-2 ml-2">
+                                    {session.safety.map((note, nIndex) => (
+                                      <li key={nIndex}>{note}</li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         );
-                      }
-                      return (
-                        <div key={sIndex} className="mt-4 space-y-4">
-                          {session.warmup && session.warmup.length > 0 && (
-                            <div> ... </div>
-                          )}
-                          {/* ... (rest of session rendering code is unchanged) ... */}
-                          {session.warmup && session.warmup.length > 0 && (
-                            <div>
-                              <h4 className="font-semibold text-white flex items-center gap-2 text-lg">
-                                <FireIcon className="h-5 w-5 text-orange-400" />
-                                Warm-up
-                              </h4>
-                              {session.warmup.map((ex, i) => (
-                                <ExerciseDetail
-                                  key={`warmup-${i}`}
-                                  exercise={ex}
-                                />
-                              ))}
-                            </div>
-                          )}
-                          <div>
-                            <h4 className="font-semibold text-white flex items-center gap-2 text-lg">
-                              <ClockIcon className="h-5 w-5 text-blue-400" />
-                              Main Workout
-                            </h4>
-                            {session.main.map((ex, i) => (
-                              <ExerciseDetail key={`main-${i}`} exercise={ex} />
-                            ))}
-                          </div>
-                          {session.cooldown && session.cooldown.length > 0 && (
-                            <div>
-                              <h4 className="font-semibold text-white text-lg">
-                                Cooldown
-                              </h4>
-                              {session.cooldown.map((ex, i) => (
-                                <ExerciseDetail
-                                  key={`cooldown-${i}`}
-                                  exercise={ex}
-                                />
-                              ))}
-                            </div>
-                          )}
-                          {session.safety && session.safety.length > 0 && (
-                            <div className="mt-4 p-4 rounded-lg bg-yellow-900/30 border border-yellow-700/50">
-                              <h4 className="font-semibold text-yellow-300 flex items-center gap-2">
-                                <ShieldCheckIcon className="h-5 w-5" />
-                                Safety Notes
-                              </h4>
-                              <ul className="list-disc list-inside text-yellow-300/80 text-sm mt-2 ml-2">
-                                {session.safety.map((note, nIndex) => (
-                                  <li key={nIndex}>{note}</li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
+                      })}
                   </motion.div>
-                ))}
+                </AnimatePresence>
               </div>
 
-              {/* --- 3. NEW SECTIONS RENDERED CONDITIONALLY --- */}
-              <div className="divide-y-2 divide-gray-700/50">
+              {/* --- Additional sections --- */}
+              <div className="divide-y-2 divide-gray-700/50 mt-12">
                 {planData.micro_workouts &&
                   planData.micro_workouts.length > 0 && (
                     <MicroWorkoutsSection
@@ -468,30 +502,6 @@ export default function WorkoutsPage() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      <div className="fixed top-0 right-0 w-full max-w-md p-4">
-        <div className="relative bg-gray-900/80 backdrop-blur-sm p-4 rounded-xl shadow-2xl border border-gray-700">
-          <label
-            htmlFor="plan-select"
-            className="block text-sm font-medium text-white mb-2 text-center"
-          >
-            Change Workout Plan
-          </label>
-          <select
-            id="plan-select"
-            value={selectedPlan}
-            onChange={(e) => setSelectedPlan(e.target.value)}
-            className="w-full appearance-none bg-gray-800 border border-gray-600 text-white rounded-lg p-3 focus:ring-2 focus:ring-green-500 focus:border-green-500"
-          >
-            {workoutPlanOptions.map((opt) => (
-              <option key={opt.id} value={opt.id}>
-                {opt.name}
-              </option>
-            ))}
-          </select>
-          <ChevronDownIcon className="h-6 w-6 text-gray-400 absolute right-7 top-[60px] pointer-events-none" />
-        </div>
-      </div>
     </div>
   );
 }

@@ -380,37 +380,6 @@ export default function DietsPage() {
         )}
       </AnimatePresence>
 
-      {/* --- Dropdown Selection Menu --- */}
-      <div className="fixed top-0 right-0 w-full max-w-md p-4">
-        <div className="relative bg-gray-900/80 backdrop-blur-sm p-4 rounded-xl shadow-2xl border border-gray-700">
-          <label
-            htmlFor="plan-select"
-            className="block text-sm font-medium text-white mb-2 text-center"
-          >
-            Change Diet Plan
-          </label>
-          <select
-            id="plan-select"
-            value={selectedPlan}
-            onChange={(e) => setSelectedPlan(e.target.value)}
-            className="w-full appearance-none bg-gray-800 border border-gray-600 text-white rounded-lg p-3 focus:ring-2 focus:ring-green-500 focus:border-green-500"
-          >
-            {dietPlanOptions.map((group) => (
-              <optgroup key={group.type} label={group.type}>
-                {group.calories.map((cal) => {
-                  const id = `${group.id_prefix || group.type}_${cal}`;
-                  return (
-                    <option key={id} value={id}>
-                      {cal} kcal
-                    </option>
-                  );
-                })}
-              </optgroup>
-            ))}
-          </select>
-          <ChevronDownIcon className="h-6 w-6 text-gray-400 absolute right-7 top-[60px] pointer-events-none" />
-        </div>
-      </div>
     </div>
   );
 }
