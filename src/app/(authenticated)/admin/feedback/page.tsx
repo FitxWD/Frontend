@@ -4,8 +4,13 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { StarIcon, CheckCircleIcon, ArrowPathIcon } from "@heroicons/react/24/solid";
+import {
+  StarIcon,
+  CheckCircleIcon,
+  ArrowPathIcon,
+} from "@heroicons/react/24/solid";
 import { formatDistanceToNow } from "date-fns";
+import toast, { Toaster } from "react-hot-toast";
 
 // --- Types to match the API response ---
 interface UserInfo {
@@ -30,7 +35,9 @@ const StarRating = ({ rating }: { rating: number }) => (
     {[1, 2, 3, 4, 5].map((star) => (
       <StarIcon
         key={star}
-        className={`h-5 w-5 ${rating >= star ? "text-yellow-400" : "text-gray-600"}`}
+        className={`h-5 w-5 ${
+          rating >= star ? "text-yellow-400" : "text-gray-600"
+        }`}
       />
     ))}
   </div>
@@ -40,25 +47,25 @@ const StarRating = ({ rating }: { rating: number }) => (
 export default function AdminFeedbackPage() {
   const { user } = useAuth();
   const router = useRouter();
-  
+
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [filter, setFilter] = useState<"new" | "reviewed">("new");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
 
-// --- Client-Side Security Check ---
-// This provides a good UX by redirecting non-admins immediately.
+  // --- Client-Side Security Check ---
+  // This provides a good UX by redirecting non-admins immediately.
   useEffect(() => {
     if (user) {
       user.getIdTokenResult().then((tokenResult) => {
         if (!tokenResult.claims.isAdmin) {
+          toast.error("Access denied. Admin privileges required.");
           router.push("/login"); // Or your app's home page
         }
       });
     }
   }, [user, router]);
-
 
   // --- Data Fetching Effect ---
   useEffect(() => {
@@ -75,18 +82,21 @@ export default function AdminFeedbackPage() {
           }
         );
         if (!response.ok) throw new Error("Failed to fetch feedbacks.");
-        
+
         const data = await response.json();
         setFeedbacks(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "An unknown error occurred.");
+        const errorMessage =
+          err instanceof Error ? err.message : "An unknown error occurred.";
+        setError(errorMessage);
+        toast.error(errorMessage);
       } finally {
         setIsLoading(false);
       }
     };
     fetchFeedbacks();
   }, [user, filter]);
-  
+
   // --- Handler to update a feedback's status ---
   const handleMarkAsReviewed = async (feedbackId: string) => {
     setUpdatingId(feedbackId);
@@ -104,12 +114,12 @@ export default function AdminFeedbackPage() {
         }
       );
       if (!response.ok) throw new Error("Failed to update status.");
-      
+
       // Update state locally for instant UI change
       setFeedbacks((prev) => prev.filter((fb) => fb.id !== feedbackId));
-
+      toast.success("Feedback marked as reviewed");
     } catch (err) {
-      alert("Error updating status. Please try again.");
+      toast.error("Error updating status. Please try again.");
     } finally {
       setUpdatingId(null);
     }
@@ -117,15 +127,21 @@ export default function AdminFeedbackPage() {
 
   return (
     <div className="p-8 md:p-12 min-h-screen">
-      <h2 className="text-4xl lg:text-4xl font-bold text-white">Admin Feedback Review</h2>
-      <p className="mt-2 text-gray-400">Review and manage feedback submitted by users.</p>
+      <h2 className="text-4xl lg:text-4xl font-bold text-white">
+        Admin Feedback Review
+      </h2>
+      <p className="mt-2 text-gray-400">
+        Review and manage feedback submitted by users.
+      </p>
 
       {/* Filter Buttons */}
       <div className="mt-8 flex gap-4 border-b border-gray-700">
         <button
           onClick={() => setFilter("new")}
           className={`px-4 py-2 font-semibold transition-colors ${
-            filter === "new" ? "text-green-400 border-b-2 border-green-400" : "text-gray-400 hover:text-white"
+            filter === "new"
+              ? "text-green-400 border-b-2 border-green-400"
+              : "text-gray-400 hover:text-white"
           }`}
         >
           New Feedback
@@ -133,7 +149,9 @@ export default function AdminFeedbackPage() {
         <button
           onClick={() => setFilter("reviewed")}
           className={`px-4 py-2 font-semibold transition-colors ${
-            filter === "reviewed" ? "text-green-400 border-b-2 border-green-400" : "text-gray-400 hover:text-white"
+            filter === "reviewed"
+              ? "text-green-400 border-b-2 border-green-400"
+              : "text-gray-400 hover:text-white"
           }`}
         >
           Reviewed
@@ -142,14 +160,21 @@ export default function AdminFeedbackPage() {
 
       {/* Feedback List */}
       <div className="mt-8 space-y-4">
-        {isLoading && <p className="text-gray-400">Loading feedback...</p>}
-        {error && <p className="text-red-400">{error}</p>}
-        
+        {isLoading && (
+          <div className="flex justify-center py-10">
+            <div className="h-10 w-10 animate-spin rounded-full border-t-2 border-b-2 border-green-500"></div>
+          </div>
+        )}
+
         <AnimatePresence>
           {!isLoading && feedbacks.length === 0 && (
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-gray-500 text-center py-10">
-              No {filter} feedback to show.
-            </motion.p>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-700/50 p-10 text-center"
+            >
+              <p className="text-gray-400">No {filter} feedback to show.</p>
+            </motion.div>
           )}
 
           {feedbacks.map((fb) => (
@@ -184,13 +209,17 @@ export default function AdminFeedbackPage() {
               </div>
               <div className="mt-4 pt-4 border-t border-gray-700 text-xs text-gray-400 flex justify-between">
                 <span>
-                  <strong className="text-gray-300">User:</strong> {fb.user.email || fb.user.displayName || fb.user.uid}
+                  <strong className="text-gray-300">User:</strong>{" "}
+                  {fb.user.email || fb.user.displayName || fb.user.uid}
                 </span>
                 <span>
-                  <strong className="text-gray-300">Plan ID:</strong> {fb.planId}
+                  <strong className="text-gray-300">Plan ID:</strong>{" "}
+                  {fb.planId}
                 </span>
                 <span>
-                  {formatDistanceToNow(new Date(fb.createdAt), { addSuffix: true })}
+                  {formatDistanceToNow(new Date(fb.createdAt), {
+                    addSuffix: true,
+                  })}
                 </span>
               </div>
             </motion.div>

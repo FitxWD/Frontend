@@ -77,7 +77,7 @@ const Logo = ({
             e.stopPropagation(); // Prevents the main aside's onClick from firing
             toggleSidebar();
           }}
-          className="p-1 text-gray-400 rounded-full hover:bg-gray-700 hover:text-white"
+          className="ml-10 p-1 text-gray-400 rounded-full hover:bg-gray-700 hover:text-white"
         >
           <ArrowLeftCircleIcon className="w-6 h-6" />
         </motion.button>
